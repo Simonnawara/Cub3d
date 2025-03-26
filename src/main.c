@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/26 13:51:41 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:52:11 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int is_cub_file(const char *filename)
 {
     const char *ext;
 	
-	ext = ft_strrchr(filename, '.'); // Find last occurrence of '.'
+	ext = ft_strrchr(filename, '.');
     
-    if (!ext || ext == filename) // Check if '.' exists and is not the first char
+    if (!ext || ext == filename)
         return 0;
     
-    return ft_strcmp(ext, ".cub") == 0; // Compare with ".cub"
+    return ft_strcmp(ext, ".cub") == 0;
 }
 
 int validate_inputs(int argc, char **argv)
@@ -34,11 +34,18 @@ int validate_inputs(int argc, char **argv)
 		return (1);	
 	}
 	
-
-	if (is_cub_file(argv[1]))
-		printf("Valid .cub file\n");
-	else
-		printf("Invalid format\n");
+	if (!is_cub_file(argv[1]))
+	{
+		write(2, "Error\n", 6);
+		write(2, "Invalid file format.\n", 21);
+		return (1);
+	}
+	
+	if (open(argv[1], O_RDONLY) == -1)
+	{
+		printf("Cannot open file\n");
+		return (1);
+	}
 	
 	return (0);
 }
