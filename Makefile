@@ -6,12 +6,14 @@
 #    By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-#    Updated: 2025/03/26 11:12:07 by sinawara         ###   ########.fr        #
+#    Updated: 2025/03/26 22:11:57 by sinawara         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
-SRCS =  main.c
+SRCS =  main.c \
+		parsing/file_check.c
+
 CC = gcc -g -O0
 CCFLAG = -Wall -Wextra -Werror
 LIB = -C ./libft/

@@ -30,3 +30,21 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	}
 	return (x);
 }
+
+char *ft_strncpy(char *dest, const char *src, size_t n)
+{
+    size_t i;
+
+    i = 0;
+    while (i < n && src[i])
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    while (i < n) // Fill the rest with '\0' if `src` is shorter than `n`
+    {
+        dest[i] = '\0';
+        i++;
+    }
+    return dest;
+}

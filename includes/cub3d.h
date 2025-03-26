@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/26 11:57:31 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/26 23:30:20 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,29 @@
 # include <string.h>
 # include <unistd.h>
 # include <math.h>
+
+typedef struct s_textures
+{
+	int is_no;
+	int is_so;
+	int is_ea;
+	int is_we;
+	int is_f;
+	int is_c;
+	char *path_no;
+	char *path_so;
+	char *path_ea;
+	char *path_we;
+	char *color_f;
+	char *color_c;
+} t_textures;
+
+
+// file_check.c //
+int is_cub_file(const char *filename);
+int is_xpm_file(const char *filename);
+int check_permission(const char *filename);
+t_textures *check_textures(const char *line, int i);
+
 
 #endif
