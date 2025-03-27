@@ -48,3 +48,20 @@ char *ft_strncpy(char *dest, const char *src, size_t n)
     }
     return dest;
 }
+
+char *ft_strcpy(char *dest, const char *src)
+{
+    int i = 0;
+
+    if (!dest || !src)
+        return (NULL);
+
+    while (src[i])
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0'; // Null-terminate the destination string
+
+    return dest;
+}

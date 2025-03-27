@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/27 14:46:51 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:56:38 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int open_file(const char *filename)
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		i = 0;
-		
+
 		while (line[i] && ft_isspace(line[i]))
 			i++;
 
@@ -62,7 +62,7 @@ int open_file(const char *filename)
             free(line);
             continue;
         }
-			
+
 		if (check_textures(line, i, textures))
 		{
 			write(2, "Error\n", 6);
@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 	if (validate_inputs(argc, argv))
 		return (1);
 
-	//open_file(argv[1]);
+	open_file(argv[1]);
 	if (validate_map_structure(argv[1]))
         printf("Map structure is valid.\n");
 	else

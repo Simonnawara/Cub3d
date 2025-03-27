@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/27 15:04:55 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/27 19:19:58 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 //# include <mlx.h>
 # include <fcntl.h>
 # include <ctype.h>
-#define BUFFER_SIZE_MAP 1024
 
 /* Key codes for events */
 # define KEY_ESC 53
@@ -166,8 +165,14 @@ void free_map_array(char **map, int height);
 // check_map //
 int is_map_line(const char *line);
 int is_texture_line(const char *line);
+char **allocate_map(int rows, int cols);
+char **extract_map(int fd, int *rows, int *cols);
 int validate_map_structure(const char *filename);
 
-
+// parse_map //
+int flood_fill(char **map, int x, int y, int rows, int cols);
+int is_map_enclosed(char **map, int rows, int cols);
+int validate_map_content(char **map, int rows, int cols);
+int validate_map(char **map, int rows, int cols);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 22:05:17 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/27 11:23:45 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:58:10 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int check_textures(const char *line, int i, t_textures *textures)
         textures->path_no[j] = '\0';
 		if (check_permission(textures->path_no) && is_xpm_file(textures->path_no))
 			exit(1);
-        printf("path->no = %s\n", textures->path_no);
+        //printf("path->no = %s\n", textures->path_no);
     }
     if (ft_strcmp(texture, "SO") == 0)
     {
@@ -121,7 +121,7 @@ int check_textures(const char *line, int i, t_textures *textures)
         textures->path_so[j] = '\0';
 		if (check_permission(textures->path_so) && is_xpm_file(textures->path_so))
 			exit(1);
-        printf("path->so = %s\n", textures->path_so);
+        //printf("path->so = %s\n", textures->path_so);
     }
     if (ft_strcmp(texture, "EA") == 0)
     {
@@ -133,7 +133,7 @@ int check_textures(const char *line, int i, t_textures *textures)
         textures->path_ea[j] = '\0';
 		if (check_permission(textures->path_ea) && is_xpm_file(textures->path_ea))
 			exit(1);
-        printf("path->ea = %s\n", textures->path_ea);
+        //printf("path->ea = %s\n", textures->path_ea);
     }
     if (ft_strcmp(texture, "WE") == 0)
     {
@@ -145,7 +145,7 @@ int check_textures(const char *line, int i, t_textures *textures)
         textures->path_we[j] = '\0';
 		if (check_permission(textures->path_we) && is_xpm_file(textures->path_we))
 			exit (1);
-        printf("path->we = %s\n", textures->path_we);
+        //printf("path->we = %s\n", textures->path_we);
     }
 	if (ft_strcmp(texture, "F ") == 0)
     {
@@ -155,7 +155,7 @@ int check_textures(const char *line, int i, t_textures *textures)
             return (1);
         ft_strncpy(textures->color_f, &line[y], j);
         textures->color_f[j] = '\0';
-        printf("color->f = %s\n", textures->color_f);
+        //printf("color->f = %s\n", textures->color_f);
     }
 	if (ft_strcmp(texture, "C ") == 0)
     {
@@ -165,7 +165,7 @@ int check_textures(const char *line, int i, t_textures *textures)
             return (1);
         ft_strncpy(textures->color_c, &line[y], j);
         textures->color_c[j] = '\0';
-        printf("color->c = %s\n", textures->color_c);
+        //printf("color->c = %s\n", textures->color_c);
     }
 	return (0);
 }
