@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/26 22:40:41 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:36:47 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,39 @@ int validate_inputs(int argc, char **argv)
 	return (0);
 }
 
-void open_file(const char *filename)
+int open_file(const char *filename)
 {
 	int		fd;
 	int		i;
 	char	*line;
+	t_textures *textures;
 
 	fd = open(filename, O_RDONLY);
+	textures = init_textures();
+	if (!textures)
+		return (0);
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		i = 0;
 		while (line[i] && ft_isspace(line[i]))
 			i++;
-		check_textures(line, i);
+		if (check_textures(line, i, textures))
+		{
+			write(2, "Error\n", 6);
+			write(2, "Please enter valid textures\n", 28);
+			free(line);
+			exit(0);
+		}
 		free(line);
 	}
 
+	if (textures_present(textures))
+		printf("All textures have been found\n");
+	else
+		printf("Error, missing textures\n");
+
 	close(fd);
+	return (0);
 }
 
 int main(int argc, char **argv)

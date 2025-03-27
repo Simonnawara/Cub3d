@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/26 23:30:20 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:25:32 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ typedef struct s_textures
 int is_cub_file(const char *filename);
 int is_xpm_file(const char *filename);
 int check_permission(const char *filename);
-t_textures *check_textures(const char *line, int i);
+int check_textures(const char *line, int i, t_textures *textures);
+t_textures  *init_textures(void);
+int textures_present(t_textures *textures);
 
 
 #endif
