@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 22:05:17 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/27 10:37:07 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:23:45 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,16 @@ int is_xpm_file(const char *filename)
 
 int check_permission(const char *filename)
 {
-	if (open(filename, O_RDONLY) == -1) //check for file permissions
+	int fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd == -1) //check for file permissions
 	{
-		printf("Cannot open file\n");
+		perror("Error opening file");
 		return (1);
 	}
 
+	close(fd);
 	return (0);
 }
 
@@ -103,6 +107,8 @@ int check_textures(const char *line, int i, t_textures *textures)
             return (1);
         ft_strncpy(textures->path_no, &line[y], j);
         textures->path_no[j] = '\0';
+		if (check_permission(textures->path_no) && is_xpm_file(textures->path_no))
+			exit(1);
         printf("path->no = %s\n", textures->path_no);
     }
     if (ft_strcmp(texture, "SO") == 0)
@@ -113,6 +119,8 @@ int check_textures(const char *line, int i, t_textures *textures)
             return (1);
         ft_strncpy(textures->path_so, &line[y], j);
         textures->path_so[j] = '\0';
+		if (check_permission(textures->path_so) && is_xpm_file(textures->path_so))
+			exit(1);
         printf("path->so = %s\n", textures->path_so);
     }
     if (ft_strcmp(texture, "EA") == 0)
@@ -123,6 +131,8 @@ int check_textures(const char *line, int i, t_textures *textures)
             return (1);
         ft_strncpy(textures->path_ea, &line[y], j);
         textures->path_ea[j] = '\0';
+		if (check_permission(textures->path_ea) && is_xpm_file(textures->path_ea))
+			exit(1);
         printf("path->ea = %s\n", textures->path_ea);
     }
     if (ft_strcmp(texture, "WE") == 0)
@@ -133,6 +143,8 @@ int check_textures(const char *line, int i, t_textures *textures)
             return (1);
         ft_strncpy(textures->path_we, &line[y], j);
         textures->path_we[j] = '\0';
+		if (check_permission(textures->path_we) && is_xpm_file(textures->path_we))
+			exit (1);
         printf("path->we = %s\n", textures->path_we);
     }
 	if (ft_strcmp(texture, "F ") == 0)
@@ -155,6 +167,5 @@ int check_textures(const char *line, int i, t_textures *textures)
         textures->color_c[j] = '\0';
         printf("color->c = %s\n", textures->color_c);
     }
-	
 	return (0);
 }
