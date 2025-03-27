@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/27 11:24:45 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:53:40 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <math.h>
-# include <mlx.h>
+//# include <mlx.h>
 # include <fcntl.h>
 
 /* Key codes for events */
@@ -149,5 +149,16 @@ int check_textures(const char *line, int i, t_textures *textures);
 t_textures  *init_textures(void);
 int textures_present(t_textures *textures);
 
+//init.c//
+void init_game(t_game *game);
+int init_mlx(t_game *game);
+void init_player(t_game *game);
+void setup_player_direction(t_game *game);
+int	load_textures(t_game *game);
+int parse_color(char *color_str);
 
+//cleanup.c//
+int	clean_exit(t_game *game, int status);
+int	error_handler(t_game *game, char *error_message);
+void free_split(char **split);
 #endif

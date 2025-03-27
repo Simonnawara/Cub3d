@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
+/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/27 10:36:47 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:45:40 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,11 @@ int open_file(const char *filename)
 
 int main(int argc, char **argv)
 {
+	t_game game;
+	
 	if (validate_inputs(argc, argv))
 		return (1);
-
+	init_game(&game);
 	open_file(argv[1]);
 	return (0);
 }
