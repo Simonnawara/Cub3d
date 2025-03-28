@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/27 19:19:58 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/28 11:28:46 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ typedef struct s_textures
 	char	*path_ea;
 	char	*path_we;
 	char	*color_f;
+	int		*color_f_array;
 	char	*color_c;
+	int		*color_c_array;
 }	t_textures;
 
 /* MLX image structure */
@@ -174,5 +176,9 @@ int flood_fill(char **map, int x, int y, int rows, int cols);
 int is_map_enclosed(char **map, int rows, int cols);
 int validate_map_content(char **map, int rows, int cols);
 int validate_map(char **map, int rows, int cols);
+
+// color_check.c //
+int is_valid_rgb_component(const char *str);
+int *rgb_split(const char *rgb_str);
 
 #endif

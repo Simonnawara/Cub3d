@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 22:05:17 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/27 17:58:10 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/28 12:06:19 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,13 @@ int check_textures(const char *line, int i, t_textures *textures)
             return (1);
         ft_strncpy(textures->color_f, &line[y], j);
         textures->color_f[j] = '\0';
-        //printf("color->f = %s\n", textures->color_f);
+		textures->color_f_array = rgb_split(textures->color_f);
+		if (!textures->color_f_array)
+		{
+			printf("Error with the color codes\n");
+			exit(1);
+		}
+        printf("color->f = %s\n", textures->color_f);
     }
 	if (ft_strcmp(texture, "C ") == 0)
     {
@@ -165,7 +171,13 @@ int check_textures(const char *line, int i, t_textures *textures)
             return (1);
         ft_strncpy(textures->color_c, &line[y], j);
         textures->color_c[j] = '\0';
-        //printf("color->c = %s\n", textures->color_c);
+		textures->color_c_array = rgb_split(textures->color_c);
+		if (!textures->color_c_array)
+		{
+			printf("Error with the color codes\n");
+			exit(1);
+		}
+        printf("color->c = %s\n", textures->color_c);
     }
 	return (0);
 }

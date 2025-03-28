@@ -6,7 +6,7 @@
 #    By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-#    Updated: 2025/03/27 19:21:00 by sinawara         ###   ########.fr        #
+#    Updated: 2025/03/28 11:29:25 by sinawara         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ SRCS =  main.c \
 		parsing/file_check.c \
 		parsing/check_map.c \
 		parsing/free.c \
-		parsing/parse_map.c
+		parsing/parse_map.c \
+		parsing/color_check.c
 
 CC = gcc -g -O0
 CCFLAG = -Wall -Wextra -Werror
