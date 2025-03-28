@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:04 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/28 13:29:49 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/28 14:42:35 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 void    free_map(t_map *map)
 {
     int    i;
-    if (!map->grid)
+    if (!map->map)
         return ;
 
     i = 0;
     while (i < map->height)
     {
-        if (map->grid[i])
-            free(map->grid[i]);
+        if (map->map[i])
+            free(map->map[i]);
         i++;
     }
-    free(map->grid);
-    map->grid = NULL;
+    free(map->map);
+    map->map = NULL;
 }
 
 void free_textures(t_game *game)

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
+/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/03/28 13:30:00 by trouilla         ###   ########.fr       */
-=======
-/*   Updated: 2025/03/28 11:28:46 by sinawara         ###   ########.fr       */
->>>>>>> origin
+/*   Updated: 2025/03/28 14:40:34 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +19,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <math.h>
-//# include <mlx.h>
+# include <mlx.h>
 # include <fcntl.h>
 # include <ctype.h>
 
@@ -179,4 +175,21 @@ void    free_images(t_game *game);
 int	clean_exit(t_game *game, int status);
 int	error_handle(t_game *game, char *error_message);
 void free_split(char **split);
+
+//check_map.c//
+int is_map_line(const char *line);
+int is_texture_line(const char *line);
+char **allocate_map(int rows, int cols);
+char **extract_map(int fd, int *rows, int *cols);
+int validate_map_structure(const char *filename);
+
+//color_check.c//
+int is_valid_rgb_component(const char *str);
+int *rgb_split(const char *rgb_str);
+
+//parse_map.c//
+int flood_fill(char **map, int x, int y, int rows, int cols);
+int is_map_enclosed(char **map, int rows, int cols);
+int validate_map_content(char **map, int rows, int cols);
+int validate_map(char **map, int rows, int cols);
 #endif

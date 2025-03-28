@@ -6,29 +6,19 @@
 #    By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2025/03/27 15:23:12 by trouilla         ###   ########.fr        #
-=======
-#    Updated: 2025/03/28 11:29:25 by sinawara         ###   ########.fr        #
->>>>>>> origin
+#    Updated: 2025/03/28 14:32:14 by trouilla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
-<<<<<<< HEAD
-
-SRCS = main.c \
-		parsing/file_check.c \
-		init.c \
-		cleanup.c 
-=======
 SRCS =  main.c \
 		parsing/file_check.c \
 		parsing/check_map.c \
 		parsing/free.c \
 		parsing/parse_map.c \
-		parsing/color_check.c
->>>>>>> origin
+		parsing/color_check.c \
+		init.c \
+		cleanup.c 
 
 CC = gcc -g -O0
 CCFLAG = -Wall -Wextra -Werror

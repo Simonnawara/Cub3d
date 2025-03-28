@@ -6,11 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/03/28 14:17:29 by trouilla         ###   ########.fr       */
-=======
-/*   Updated: 2025/03/27 17:56:38 by sinawara         ###   ########.fr       */
->>>>>>> origin
+/*   Updated: 2025/03/28 14:32:55 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +90,14 @@ int main(int argc, char **argv)
 		return (1);
 	init_game(&game);
 	open_file(argv[1]);
-<<<<<<< HEAD
+	if (validate_map_structure(argv[1]))
+        printf("Map structure is valid.\n");
+	else
+        printf("Map structure is INVALID.\n");
 	if (init_mlx(&game))
 		return (1);
 	init_player(&game);
 	if (load_textures(&game))
 		return (1);
-	
-=======
-	if (validate_map_structure(argv[1]))
-        printf("Map structure is valid.\n");
-	else
-        printf("Map structure is INVALID.\n");
-
->>>>>>> origin
 	return (0);
 }

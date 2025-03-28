@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:46:30 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/28 13:26:14 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/28 14:41:54 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void init_game(t_game *game)
 {
 	game->mlx = NULL;
 	game->win = NULL;
-	game->map.grid = NULL;
+	game->map.map = NULL;
 	game->map.width = 0;
 	game->map.height = 0;
-	game->map.has_player = 0;
 	game->floor_color = 0;
 	game->ceiling_color = 0;
 	game->map_path = NULL;
@@ -60,12 +59,12 @@ void init_player(t_game *game)
 		x = 0;
 		while (x < game->map.width)
 		{
-			if (ft_strchr("NSEW", game->map.grid[y][x]))
+			if (ft_strchr("NSEW", game->map.map[y][x]))
 			{
 				game->player.pos_x = x + 0.5;
 				game->player.pos_y = y + 0.5;
-				game->player.direction = game->map.grid[y][x];
-				game->map.grid[y][x] = '0';
+				game->player.direction = game->map.map[y][x];
+				game->map.map[y][x] = '0';
 				setup_player_direction(game);
 				return;
 			}
