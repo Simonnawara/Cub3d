@@ -6,7 +6,21 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/28 16:37:18 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:54:46 by trouilla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/cub3d.h"
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
+/*   Updated: 2025/03/28 17:15:00 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +51,9 @@ int validate_inputs(int argc, char **argv)
 */
 int parse_file(t_game *game, const char *filename)
 {
-	int		fd;
-	char	*line;
-	int		i;
+	int fd;
+	char *line;
+	int i;
 
 	// Store map path for later use
 	game->map_path = ft_strdup(filename);
@@ -85,9 +99,9 @@ int parse_file(t_game *game, const char *filename)
 */
 int load_map(t_game *game, const char *filename)
 {
-	int		rows = 0;
-	int		cols = 0;
-	int		fd;
+	int rows = 0;
+	int cols = 0;
+	int fd;
 
 	// Validate overall map structure
 	if (!validate_map_structure(filename))
@@ -116,7 +130,7 @@ int load_map(t_game *game, const char *filename)
 }
 
 /*
-** Game loop function 
+** Game loop function
 */
 int game_loop(t_game *game)
 {
@@ -148,18 +162,33 @@ int main(int argc, char **argv)
 {
 	t_game game;
 
+	// Validate input arguments
 	if (validate_inputs(argc, argv))
 		return (1);
+
+	// Initialize game structure
 	init_game(&game);
+
+	// Parse textures and settings
 	if (parse_file(&game, argv[1]))
 		return (1);
+	
+	// Load and validate map
 	if (load_map(&game, argv[1]))
 		return (1);
+
+	// Initialize MLX
 	if (init_mlx(&game))
 		return (1);
+
+	// Initialize player based on map data
 	init_player(&game);
+
+	// Load textures
 	if (load_textures(&game))
 		return (1);
+
+	// Start game loop
 	game_loop(&game);
 
 	return (0);
