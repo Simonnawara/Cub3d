@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:46:30 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/28 14:41:54 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/28 15:03:53 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void init_game(t_game *game)
 {
 	game->mlx = NULL;
 	game->win = NULL;
-	game->map.map = NULL;
+	game->map.map = NULL;  // Using map.map as defined in the header
 	game->map.width = 0;
 	game->map.height = 0;
 	game->floor_color = 0;
@@ -28,6 +28,20 @@ void init_game(t_game *game)
 	game->tex_south.img = NULL;
 	game->tex_east.img = NULL;
 	game->tex_west.img = NULL;
+	game->textures.is_no = 0;
+	game->textures.is_so = 0;
+	game->textures.is_ea = 0;
+	game->textures.is_we = 0;
+	game->textures.is_f = 0;
+	game->textures.is_c = 0;
+	game->textures.path_no = NULL;
+	game->textures.path_so = NULL;
+	game->textures.path_ea = NULL;
+	game->textures.path_we = NULL;
+	game->textures.color_f = NULL;
+	game->textures.color_c = NULL;
+	game->textures.color_f_array = NULL;
+	game->textures.color_c_array = NULL;
 }
 
 //Initialize mlx window and connection
@@ -76,7 +90,6 @@ void init_player(t_game *game)
 
 //définir le vecteur de direction du joueur en fonction 
 //du caractère de direction de départ
-
 void setup_player_direction(t_game *game)
 {
 	if (game->player.direction == 'N')
@@ -108,6 +121,7 @@ void setup_player_direction(t_game *game)
 		game->camera.plane_y = -0.66;
 	}
 }
+
 //Charger les textures murales (nord, sud, est, ouest) et les couleurs du sol 
 //et du plafond depuis les chemins définis dans la structure t_game.
 int	load_textures(t_game *game)

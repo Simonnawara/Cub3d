@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/28 14:40:34 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/28 15:17:02 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,15 @@ int check_permission(const char *filename);
 int check_textures(const char *line, int i, t_textures *textures);
 t_textures  *init_textures(void);
 int textures_present(t_textures *textures);
+
+//main.c//
+int render_frame(t_game *game);
+int handle_exit(t_game *game);
+int key_press(int keycode, t_game *game);
+int game_loop(t_game *game);
+int load_map(t_game *game, const char *filename);
+int parse_file(t_game *game, const char *filename);
+int validate_inputs(int argc, char **argv);
 
 //init.c//
 void init_game(t_game *game);
