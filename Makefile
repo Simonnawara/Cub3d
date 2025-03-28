@@ -6,7 +6,7 @@
 #    By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-#    Updated: 2025/03/28 14:32:14 by trouilla         ###   ########.fr        #
+#    Updated: 2025/03/28 16:29:27 by trouilla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ SRCS =  main.c \
 		parsing/parse_map.c \
 		parsing/color_check.c \
 		init.c \
-		cleanup.c 
+		cleanup.c \
+		raycasting.c \
+		move.c
 
 CC = gcc -g -O0
 CCFLAG = -Wall -Wextra -Werror

@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/28 15:17:02 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:39:24 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,4 +201,24 @@ int flood_fill(char **map, int x, int y, int rows, int cols);
 int is_map_enclosed(char **map, int rows, int cols);
 int validate_map_content(char **map, int rows, int cols);
 int validate_map(char **map, int rows, int cols);
+
+//raycasting.c//
+void cast_rays(t_game *game);
+void calculate_ray(t_game *game, t_ray *ray, int x);
+void perform_dda(t_game *game, t_ray *ray);
+void calculate_wall_distance(t_ray *ray, t_game *game);
+void calculate_wall_height(t_ray *ray, int screen_height);
+void draw_wall_stripe(t_game *game, int x, t_ray *ray);
+void calculate_texture_position(t_game *game, t_ray *ray, int x, t_tex_pos *tex);
+int get_pixel_color(t_img *img, int x, int y);
+void put_pixel(t_img *img, int x, int y, int color);
+int render_frame(t_game *game);
+void clear_image(t_img *img, int color);
+
+//move.c//
+void move_player(t_game *game, double move_speed);
+void strafe_player(t_game *game, double strafe_speed);
+void rotate_player(t_game *game, double rot_speed);
+int is_valid_move(t_game *game, double x, double y);
+int key_press(int keycode, t_game *game);
 #endif

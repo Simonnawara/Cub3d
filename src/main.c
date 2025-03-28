@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/28 15:16:54 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:37:18 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,36 +134,11 @@ int game_loop(t_game *game)
 }
 
 /*
-** Key press handler
-*/
-int key_press(int keycode, t_game *game)
-{
-	if (keycode == KEY_ESC)
-		return (clean_exit(game, 0));
-	
-	// Add more key handlers here once movement is implemented
-	
-	// Redraw the frame after movement
-	render_frame(game);
-	
-	return (0);
-}
-
-/*
 ** Handle window close event
 */
 int handle_exit(t_game *game)
 {
 	return (clean_exit(game, 0));
-}
-
-/*
-** Render a single frame 
-*/
-int render_frame(t_game *game)
-{
-	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
-	return (0);
 }
 
 /*
