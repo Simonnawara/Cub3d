@@ -6,7 +6,11 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/03/28 14:17:29 by trouilla         ###   ########.fr       */
+=======
+/*   Updated: 2025/03/27 17:56:38 by sinawara         ###   ########.fr       */
+>>>>>>> origin
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +50,29 @@ int open_file(const char *filename)
 	fd = open(filename, O_RDONLY);
 	textures = init_textures();
 	if (!textures)
+	{
+		close(fd);
 		return (0);
+	}
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		i = 0;
+
 		while (line[i] && ft_isspace(line[i]))
 			i++;
+
+		if (line[i] == '\0')
+		{
+            free(line);
+            continue;
+        }
+
 		if (check_textures(line, i, textures))
 		{
 			write(2, "Error\n", 6);
-			write(2, "Please enter valid textures\n", 28);
+            write(2, "Error\nInvalid texture or color configuration\n", 44);
 			free(line);
-			exit(0);
+			return (0);
 		}
 		free(line);
 	}
@@ -65,7 +80,7 @@ int open_file(const char *filename)
 	if (textures_present(textures))
 		printf("All textures have been found\n");
 	else
-		printf("Error, missing textures\n");
+		printf("Error, missing textures or colors\n");
 
 	close(fd);
 	return (0);
@@ -79,11 +94,19 @@ int main(int argc, char **argv)
 		return (1);
 	init_game(&game);
 	open_file(argv[1]);
+<<<<<<< HEAD
 	if (init_mlx(&game))
 		return (1);
 	init_player(&game);
 	if (load_textures(&game))
 		return (1);
 	
+=======
+	if (validate_map_structure(argv[1]))
+        printf("Map structure is valid.\n");
+	else
+        printf("Map structure is INVALID.\n");
+
+>>>>>>> origin
 	return (0);
 }

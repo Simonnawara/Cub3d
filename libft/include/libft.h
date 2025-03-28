@@ -67,6 +67,7 @@ void	ft_putendl_fd(char *s, int fd);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_isspace(int c);
 char	*ft_strncpy(char *dest, const char *src, size_t n);
+char	*ft_strcpy(char *dest, const char *src);
 
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);

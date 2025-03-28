@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/03/28 13:30:00 by trouilla         ###   ########.fr       */
+=======
+/*   Updated: 2025/03/28 11:28:46 by sinawara         ###   ########.fr       */
+>>>>>>> origin
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +23,9 @@
 # include <string.h>
 # include <unistd.h>
 # include <math.h>
-# include <mlx.h>
+//# include <mlx.h>
 # include <fcntl.h>
+# include <ctype.h>
 
 /* Key codes for events */
 # define KEY_ESC 53
@@ -49,7 +54,9 @@ typedef struct s_textures
 	char	*path_ea;
 	char	*path_we;
 	char	*color_f;
+	int		*color_f_array;
 	char	*color_c;
+	int		*color_c_array;
 }	t_textures;
 
 /* MLX image structure */
@@ -65,13 +72,13 @@ typedef struct s_img
 }	t_img;
 
 /* Map structure */
-typedef struct s_map
+/* typedef struct s_map
 {
 	char	**grid;
 	int		width;
 	int		height;
 	int		has_player;
-}	t_map;
+}	t_map; */
 
 /* Player structure */
 typedef struct s_player
@@ -121,6 +128,13 @@ typedef struct s_tex_pos
 	double	step;
 }	t_tex_pos;
 
+// New map structure
+typedef struct s_map {
+    char **map;      // 2D array of map characters
+    int height;      // Number of rows
+    int width;       // Max width of map
+} t_map;
+
 /* Main game structure */
 typedef struct s_game
 {
@@ -139,6 +153,7 @@ typedef struct s_game
 	int			ceiling_color;
 	char		*map_path;
 }	t_game;
+
 
 
 // file_check.c //
