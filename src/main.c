@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/27 11:45:40 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/28 14:17:29 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,11 @@ int main(int argc, char **argv)
 		return (1);
 	init_game(&game);
 	open_file(argv[1]);
+	if (init_mlx(&game))
+		return (1);
+	init_player(&game);
+	if (load_textures(&game))
+		return (1);
+	
 	return (0);
 }
