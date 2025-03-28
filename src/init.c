@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:46:30 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/27 14:54:44 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/28 13:26:14 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,21 +87,21 @@ void setup_player_direction(t_game *game)
 		game->camera.plane_x = 0.66;
 		game->camera.plane_y = 0;
 	}
-	else if (game->player.direction = "S")
+	else if (game->player.direction == 'S')
 	{
 		game->player.dir_x = 0;
 		game->player.dir_y = 1;
 		game->camera.plane_x = -0.66;
 		game->camera.plane_y = 0;
 	}
-	else if (game->player.direction = "E")
+	else if (game->player.direction == 'E')
 	{
 		game->player.dir_x = 1;
 		game->player.dir_y = 0;
 		game->camera.plane_x = 0;
 		game->camera.plane_y = 0.66;
 	}
-	else if (game->player.direction = "W")
+	else if (game->player.direction == 'W')
 	{
 		game->player.dir_x = -1;
 		game->player.dir_y = 0;
@@ -116,7 +116,7 @@ int	load_textures(t_game *game)
 	game->tex_north.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_no,
 		&game->tex_north.width, &game->tex_north.height);
 	if (!game->tex_north.img)
-		return (error_handler(game, "Failed to load north texture"));
+		return (error_handle(game, "Failed to load north texture"));
 	game->tex_north.addr = mlx_get_data_addr(game->tex_north.img,
 		&game->tex_north.bits_per_pixel, &game->tex_north.line_length, 
 		&game->tex_north.endian);
@@ -124,7 +124,7 @@ int	load_textures(t_game *game)
 	game->tex_south.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_so,
 		&game->tex_south.width, &game->tex_south.height);
 	if (!game->tex_south.img)
-		return (error_handler(game, "Failed to load south texture"));
+		return (error_handle(game, "Failed to load south texture"));
 	game->tex_south.addr = mlx_get_data_addr(game->tex_south.img,
 		&game->tex_south.bits_per_pixel, &game->tex_south.line_length, 
 		&game->tex_south.endian);
@@ -132,7 +132,7 @@ int	load_textures(t_game *game)
 	game->tex_east.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_ea,
 		&game->tex_east.width, &game->tex_east.height);
 	if (!game->tex_east.img)
-		return (error_handler(game, "Failed to load east texture"));
+		return (error_handle(game, "Failed to load east texture"));
 	game->tex_east.addr = mlx_get_data_addr(game->tex_east.img,
 		&game->tex_east.bits_per_pixel, &game->tex_east.line_length, 
 		&game->tex_east.endian);
@@ -140,7 +140,7 @@ int	load_textures(t_game *game)
 	game->tex_west.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_we,
 		&game->tex_west.width, &game->tex_west.height);
 	if (!game->tex_west.img)
-		return (error_handler(game, "Failed to load west texture"));
+		return (error_handle(game, "Failed to load west texture"));
 	game->tex_west.addr = mlx_get_data_addr(game->tex_west.img,
 		&game->tex_west.bits_per_pixel, &game->tex_west.line_length, 
 		&game->tex_west.endian);

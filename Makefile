@@ -6,29 +6,35 @@
 #    By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-#    Updated: 2025/03/27 14:55:32 by trouilla         ###   ########.fr        #
+#    Updated: 2025/03/27 15:23:12 by trouilla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
-SRCS =  main.c \
+
+SRCS = main.c \
 		parsing/file_check.c \
 		init.c \
 		cleanup.c 
 
 CC = gcc -g -O0
 CCFLAG = -Wall -Wextra -Werror
-LIB = -C ./libft/
+
+OBJ_DIR = obj
+D_SRCS = ./src/
+OBJECT = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+
+# === LIBRARIES ===
+LIBFT_DIR = ./libft
+MLX_DIR = ./minilibx-linux
+
+INCLUDES = -I$(LIBFT_DIR) -I$(MLX_DIR) -Iincludes
+
+LIBS = -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lreadline -lhistory -lX11 -lXext -lm -lz
 
 SUCCESS_COLOR = \033[32m
 
-OBJ_DIR = obj
-
-OBJECT = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
-
-D_SRCS = ./src/
-
-# ASCII logo defined as a shell command
+# === ASCII LOGO ===
 WHITE   = \033[37m
 RED     = \033[31m
 BURGUNDY = \033[38;5;88m
@@ -53,25 +59,26 @@ all :  $(NAME)
 
 $(OBJ_DIR)/%.o: $(D_SRCS)%.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
-	@$(CC) $(CCFLAG) -I./libft -I/includes -o $@ -c $<
+	@$(CC) $(CCFLAG) $(INCLUDES) -o $@ -c $<
 
-# Create obj directory if it doesn't exist
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(NAME) : $(OBJECT)
 	@$(LOGO)
-	@make $(LIB)
-	@$(CC) $(CCFLAG) -o $(NAME) $(OBJECT) -L./libft -lft -lreadline -lhistory
+	@make -C $(LIBFT_DIR)
+	@make -C $(MLX_DIR)
+	@$(CC) $(CCFLAG) -o $(NAME) $(OBJECT) $(LIBS)
 	@echo "$(SUCCESS_COLOR)$(NAME) - Compiled with Success"
 
 clean :
-	@make clean $(LIB)
+	@make clean -C $(LIBFT_DIR)
+	@make clean -C $(MLX_DIR)
+	@rm -rf $(OBJ_DIR)
 	@echo "$(SUCCESS_COLOR)$(NAME) - Cleaned with Success"
-	@/bin/rm -rf $(OBJ_DIR)
 
 fclean : clean
-	@make fclean $(LIB)
+	@make fclean -C $(LIBFT_DIR)
 	@rm -rf ./$(NAME)
 	@echo "$(SUCCESS_COLOR)$(NAME) - FCleaned with Success"
 
