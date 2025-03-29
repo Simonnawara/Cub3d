@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
+/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 11:26:56 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/28 11:48:46 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/03/29 14:03:04 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ int *rgb_split(const char *rgb_str)
 	free(split);
 
 	if (rgb)
-	{
 		printf("R: %d, G: %d, B: %d\n", rgb[0], rgb[1], rgb[2]);
-		//free(rgb);
-	}
 	else
 		printf("Invalid RGB input!\n");
 

@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:09:40 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/28 17:03:36 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/29 14:12:37 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,57 +148,51 @@ int is_map_enclosed(char **map, int rows, int cols)
 	return (is_enclosed);
 }
 
-/*
-** Validate the content of the map
-*/
 int validate_map_content(char **map, int rows, int cols)
 {
-	int x, y;
-	int player_count = 0;
-	char invalid_char = 0;
-	int invalid_x = 0, invalid_y = 0;
-	
-	x = 0;
-	while (x < rows)
-	{
-		y = 0;
-		while (y < cols)
-		{
-			// Check for valid characters
-			if (map[x][y] != '0' && map[x][y] != '1' && map[x][y] != ' ' && 
-				map[x][y] != 'N' && map[x][y] != 'S' && map[x][y] != 'E' && 
-				map[x][y] != 'W' && map[x][y] != '\r' && map[x][y] != '\0')
-			{
-				invalid_char = map[x][y];
-				invalid_x = x;
-				invalid_y = y;
-			}
-			
-			// Count player positions
-			if (map[x][y] == 'N' || map[x][y] == 'S' || map[x][y] == 'E' || map[x][y] == 'W')
-				player_count++;
-			
-			y++;
-		}
-		x++;
-	}
-	
-	// Report any invalid characters
-	if (invalid_char)
-	{
-		printf("Error: Invalid character '%c' at position [%d,%d]\n", invalid_char, invalid_x, invalid_y);
-		return (0);
-	}
-	
-	// Check player count
-	printf("Player positions found: %d\n", player_count);
-	if (player_count != 1)
-	{
-		printf("Error: Map must contain exactly one player start position!\n");
-		return (0);
-	}
-	
-	return (1);
+    int y, x;  // y for rows, x for columns
+    int player_count = 0;
+    
+    printf("Validating map content: %d rows, %d cols\n", rows, cols);
+    
+    y = 0;  // Iterate through rows
+    while (y < rows)
+    {
+        x = 0;  // Iterate through columns
+        while (x < cols)
+        {
+            printf("Checking position [%d,%d]: '%c'\n", y, x, map[y][x]);
+            
+            // Check for valid characters
+            if (map[y][x] != '0' && map[y][x] != '1' && map[y][x] != ' ' && 
+                map[y][x] != 'N' && map[y][x] != 'S' && map[y][x] != 'E' && 
+                map[y][x] != 'W' && map[y][x] != '\r' && map[y][x] != '\0')
+            {
+                printf("Error: Invalid character '%c' at position [%d,%d]\n", map[y][x], y, x);
+                return (0);
+            }
+            
+            // Count player positions
+            if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E' || map[y][x] == 'W')
+            {
+                player_count++;
+                printf("Found player at [%d,%d]: %c\n", y, x, map[y][x]);
+            }
+            
+            x++;
+        }
+        y++;
+    }
+    
+    // Check player count
+    printf("Player positions found: %d\n", player_count);
+    if (player_count != 1)
+    {
+        printf("Error: Map must contain exactly one player start position!\n");
+        return (0);
+    }
+    
+    return (1);  // Valid map content
 }
 
 /*

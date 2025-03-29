@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:04 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/28 15:04:56 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/29 14:01:06 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,20 @@
 /*
 ** Free map grid
 */
-void free_map(t_map *map)
+void free_map(t_map *map)  // Changed to accept a pointer
 {
-	int i;
-	
-	if (!map->map)
-		return ;
-	
-	i = 0;
-	while (i < map->height)
-	{
-		if (map->map[i])
-			free(map->map[i]);
-		i++;
-	}
-	free(map->map);
-	map->map = NULL;
+    int i;
+    if (!map || !map->map)  // Check if map or map->map is NULL
+        return;
+    i = 0;
+    while (i < map->height)
+    {
+        if (map->map[i])
+            free(map->map[i]);
+        i++;
+    }
+    free(map->map);
+    map->map = NULL;
 }
 
 /*
