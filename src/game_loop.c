@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 15:33:15 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/29 15:33:44 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/29 15:40:05 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,6 @@ int	game_update(t_game *game)
 	return (0);
 }
 
-/*
-** Enhanced render frame function with minimap
-*/
 int	render_frame(t_game *game)
 {
 	// Clear the screen buffer
