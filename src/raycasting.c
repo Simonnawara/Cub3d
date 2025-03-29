@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:02:11 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/28 16:24:42 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/29 15:15:44 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,24 +247,31 @@ void draw_wall_stripe(t_game *game, int x, t_ray *ray)
 
 // Get color from an image at specified coordinates
 
-int get_pixel_color(t_img *img, int x, int y)
+int	get_pixel_color(t_img *img, int x, int y)
 {
-	char *dst;
+	char	*dst;
+	
+	if (!img || !img->addr || x < 0 || y < 0 || x >= img->width || y >= img->height)
+		return (0x000000); // Return black for invalid coordinates
 	
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	return (*(unsigned int*)dst);
 }
 
-
-// Put a pixel in an image at specified coordinates
-
-void put_pixel(t_img *img, int x, int y, int color)
+/*
+** Put a pixel in an image at specified coordinates with bounds checking
+*/
+void	put_pixel(t_img *img, int x, int y, int color)
 {
-	char *dst;
+	char	*dst;
+	
+	if (!img || !img->addr || x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
+		return;
 	
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
+
 
 
 // Render a single frame

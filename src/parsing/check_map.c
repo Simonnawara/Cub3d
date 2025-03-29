@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:43:14 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/29 14:14:50 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/29 14:21:46 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ int is_map_line(const char *line)
     while (*line)
     {
         if (*line == '0' || *line == '1' || *line == 'N' || *line == 'S' || *line == 'E' || *line == 'W')
-        {
             has_valid_char = 1;
-            if (*line == 'N' || *line == 'S' || *line == 'E' || *line == 'W')
-                printf("Found player character in line: %c\n", *line);  // Debug
-        }
         else if (!ft_isspace(*line))  // Any invalid character found
             return (0);
         line++;
@@ -71,7 +67,6 @@ char **extract_map(int fd, int *rows, int *cols)
     {
         if (is_map_line(line))
         {
-            printf("Map line found: %s", line); // Debug
             int len = ft_strlen(line);
             if (len > col_len)
                 col_len = len; // Get max width of the map
@@ -79,9 +74,7 @@ char **extract_map(int fd, int *rows, int *cols)
         }
         free(line);
     }
-    *cols = col_len;
-    printf("Map dimensions: %d rows, %d cols\n", *rows, col_len); // Debug
-    
+    *cols = col_len;    
     if (*rows == 0)
         return (NULL);
 
@@ -107,22 +100,11 @@ char **extract_map(int fd, int *rows, int *cols)
             }
             while (i < col_len) // Fill remaining spaces with empty spaces
                 map[row][i++] = ' ';
-            map[row][i] = '\0';
-            
-            printf("Processed map row %d: %s\n", row, map[row]); // Debug
-            
+            map[row][i] = '\0';            
             row++;
         }
         free(line);
     }
-    
-    // Debug print the entire map
-    printf("Extracted map:\n");
-    for (int i = 0; i < *rows; i++)
-    {
-        printf("%s\n", map[i]);
-    }
-    
     return (map);
 }
 int validate_map_structure(const char *filename)
@@ -170,109 +152,3 @@ int validate_map_structure(const char *filename)
 
     return (1);
 }
-// Function to check if a file has a valid map structure
-// int validate_map_structure(const char *filename)
-// {
-//     int fd = open(filename, O_RDONLY);
-//     if (fd == -1)
-//     {
-//         perror("Error opening file");
-//         return (0);
-//     }
-
-//     char *line;
-//     int map_started = 0, valid_map_found = 0;
-//     int rows = 0, cols = 0;
-//     char **map = NULL;
-
-//     // First pass: Identify map section and count rows/cols
-//     while ((line = get_next_line(fd)) != NULL)
-//     {
-//         if (line[0] == '\0' || line[0] == '\n') // Ignore empty lines
-//         {
-//             free(line);
-//             continue;
-//         }
-
-//         if (is_map_line(line)) // Found a map line
-//         {
-//             map_started = 1;
-//             valid_map_found = 1;
-//             int len = ft_strlen(line);
-//             if (line[len - 1] == '\n') // Adjust length if newline exists
-//                 len--;
-//             if (len > cols)
-//                 cols = len; // Find longest row (including leading spaces)
-//             rows++;
-//         }
-//         else if (map_started && is_texture_line(line)) // Config after map
-//         {
-//             printf("Error: Configuration lines found after map starts.\n");
-//             free(line);
-//             close(fd);
-//             return (0);
-//         }
-//         free(line);
-//     }
-//     close(fd);
-
-//     if (!valid_map_found)
-//     {
-//         printf("Error: No map found in the file.\n");
-//         return (0);
-//     }
-
-//     // Second pass: Extract the map
-//     fd = open(filename, O_RDONLY);
-//     if (fd == -1)
-//     {
-//         perror("Error reopening file");
-//         return (0);
-//     }
-
-//     map = allocate_map(rows, cols);
-//     if (!map)
-//     {
-//         printf("Error: Failed to allocate memory for map.\n");
-//         close(fd);
-//         return (0);
-//     }
-
-//     int row = 0;
-// 	while ((line = get_next_line(fd)) != NULL)
-// 	{
-// 		if (is_map_line(line))
-// 		{
-// 			int len = ft_strlen(line);
-// 			if (line[len - 1] == '\n') // Remove trailing newline
-// 				line[len - 1] = '\0';
-
-// 			ft_strcpy(map[row], line); // Copy the line
-
-// 			// 🔹 Fix: Ensure all rows have the same length
-// 			int actual_len = ft_strlen(line);
-// 			if (actual_len < cols)
-// 				ft_memset(map[row] + actual_len, ' ', cols - actual_len); // Pad with spaces
-
-// 			row++;
-// 		}
-// 		free(line);
-// 	}
-//     close(fd);
-
-//     // Debugging: Print the processed map
-//     for (int i = 0; i < rows; i++)
-//     {
-//         printf("%s\n", map[i]); // Print normally without extra newlines
-//     }
-
-//     // Validate the extracted map
-//     // if (!validate_map(map, rows, cols))
-//     // {
-//     //     printf("Error: Map is invalid (characters or walls issue).\n");
-//     //     return (0);
-//     // }
-
-//     printf("Map is valid and enclosed by walls.\n");
-//     return (1);
-// }

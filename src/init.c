@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:46:30 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/28 15:03:53 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/29 15:11:11 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,61 +124,108 @@ void setup_player_direction(t_game *game)
 
 //Charger les textures murales (nord, sud, est, ouest) et les couleurs du sol 
 //et du plafond depuis les chemins définis dans la structure t_game.
-int	load_textures(t_game *game)
-{
-	game->tex_north.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_no,
-		&game->tex_north.width, &game->tex_north.height);
-	if (!game->tex_north.img)
-		return (error_handle(game, "Failed to load north texture"));
-	game->tex_north.addr = mlx_get_data_addr(game->tex_north.img,
-		&game->tex_north.bits_per_pixel, &game->tex_north.line_length, 
-		&game->tex_north.endian);
+// int	load_textures(t_game *game)
+// {
+// 	game->tex_north.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_no,
+// 		&game->tex_north.width, &game->tex_north.height);
+// 	if (!game->tex_north.img)
+// 		return (error_handle(game, "Failed to load north texture"));
+// 	game->tex_north.addr = mlx_get_data_addr(game->tex_north.img,
+// 		&game->tex_north.bits_per_pixel, &game->tex_north.line_length, 
+// 		&game->tex_north.endian);
 
-	game->tex_south.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_so,
-		&game->tex_south.width, &game->tex_south.height);
-	if (!game->tex_south.img)
-		return (error_handle(game, "Failed to load south texture"));
-	game->tex_south.addr = mlx_get_data_addr(game->tex_south.img,
-		&game->tex_south.bits_per_pixel, &game->tex_south.line_length, 
-		&game->tex_south.endian);
+// 	game->tex_south.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_so,
+// 		&game->tex_south.width, &game->tex_south.height);
+// 	if (!game->tex_south.img)
+// 		return (error_handle(game, "Failed to load south texture"));
+// 	game->tex_south.addr = mlx_get_data_addr(game->tex_south.img,
+// 		&game->tex_south.bits_per_pixel, &game->tex_south.line_length, 
+// 		&game->tex_south.endian);
 	
-	game->tex_east.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_ea,
-		&game->tex_east.width, &game->tex_east.height);
-	if (!game->tex_east.img)
-		return (error_handle(game, "Failed to load east texture"));
-	game->tex_east.addr = mlx_get_data_addr(game->tex_east.img,
-		&game->tex_east.bits_per_pixel, &game->tex_east.line_length, 
-		&game->tex_east.endian);
+// 	game->tex_east.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_ea,
+// 		&game->tex_east.width, &game->tex_east.height);
+// 	if (!game->tex_east.img)
+// 		return (error_handle(game, "Failed to load east texture"));
+// 	game->tex_east.addr = mlx_get_data_addr(game->tex_east.img,
+// 		&game->tex_east.bits_per_pixel, &game->tex_east.line_length, 
+// 		&game->tex_east.endian);
 	
-	game->tex_west.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_we,
-		&game->tex_west.width, &game->tex_west.height);
-	if (!game->tex_west.img)
-		return (error_handle(game, "Failed to load west texture"));
-	game->tex_west.addr = mlx_get_data_addr(game->tex_west.img,
-		&game->tex_west.bits_per_pixel, &game->tex_west.line_length, 
-		&game->tex_west.endian);
+// 	game->tex_west.img = mlx_xpm_file_to_image(game->mlx, game->textures.path_we,
+// 		&game->tex_west.width, &game->tex_west.height);
+// 	if (!game->tex_west.img)
+// 		return (error_handle(game, "Failed to load west texture"));
+// 	game->tex_west.addr = mlx_get_data_addr(game->tex_west.img,
+// 		&game->tex_west.bits_per_pixel, &game->tex_west.line_length, 
+// 		&game->tex_west.endian);
 	
-	game->floor_color = parse_color(game->textures.color_f);
-	game->ceiling_color = parse_color(game->textures.color_c);
-	return (0);
+// 	game->floor_color = parse_color(game->textures.color_f);
+// 	game->ceiling_color = parse_color(game->textures.color_c);
+// 	return (0);
+// }
+int	load_texture(t_game *game, t_img *texture, char *path)
+{
+	texture->img = mlx_xpm_file_to_image(game->mlx, path,
+		&texture->width, &texture->height);
+	if (!texture->img)
+		return (0);
+	texture->addr = mlx_get_data_addr(texture->img,
+		&texture->bits_per_pixel, &texture->line_length, 
+		&texture->endian);
+	if (!texture->addr)
+		return (0);
+	return (1);
 }
 
-// Parse color string "R,G,B" into a single integer
-int parse_color(char *color_str)
+int	load_textures(t_game *game)
 {
-	int r;
-	int g;
-	int b;
-	char **split;
+	if (!load_texture(game, &game->tex_north, game->textures.path_no))
+		return (error_handle(game, "Failed to load north texture"));
+	if (!load_texture(game, &game->tex_south, game->textures.path_so))
+		return (error_handle(game, "Failed to load south texture"));
+	if (!load_texture(game, &game->tex_east, game->textures.path_ea))
+		return (error_handle(game, "Failed to load east texture"));
+	if (!load_texture(game, &game->tex_west, game->textures.path_we))
+		return (error_handle(game, "Failed to load west texture"));
+	
+	// Parse floor and ceiling colors
+	game->floor_color = parse_color(game->textures.color_f);
+	if (game->floor_color == -1)
+		return (error_handle(game, "Invalid floor color format"));
+	
+	game->ceiling_color = parse_color(game->textures.color_c);
+	if (game->ceiling_color == -1)
+		return (error_handle(game, "Invalid ceiling color format"));
+	
+	return (0);
+}
+// Parse color string "R,G,B" into a single integer
+int	parse_color(char *color_str)
+{
+	int		r;
+	int		g;
+	int		b;
+	char	**split;
+	int		color;
 
+	if (!color_str)
+		return (-1);
+	
 	split = ft_split(color_str, ',');
-	if (!split)
-		return (0);
+	if (!split || !split[0] || !split[1] || !split[2] || split[3])
+	{
+		if (split)
+			free_split(split);
+		return (-1);
+	}
+	
 	r = ft_atoi(split[0]);
 	g = ft_atoi(split[1]);
 	b = ft_atoi(split[2]);
 	free_split(split);
+	
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-		return (0);
-	return (r << 16 | (g << 8) | b);
+		return (-1);
+	
+	color = (r << 16) | (g << 8) | b;
+	return (color);
 }

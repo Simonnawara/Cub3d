@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/28 16:54:55 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/29 15:12:45 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ void init_game(t_game *game);
 int init_mlx(t_game *game);
 void init_player(t_game *game);
 void setup_player_direction(t_game *game);
+int	load_texture(t_game *game, t_img *texture, char *path);
 int	load_textures(t_game *game);
 int parse_color(char *color_str);
 
