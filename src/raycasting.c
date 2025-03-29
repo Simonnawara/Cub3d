@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:02:11 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/29 15:15:44 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/29 15:38:10 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void cast_rays(t_game *game)
 
 // Calculate ray direction for a specific x-coordinate
 
-void calculate_ray(t_game *game, t_ray *ray, int x)
+void	calculate_ray(t_game *game, t_ray *ray, int x)
 {
-	double camera_x;
+	double	camera_x;
 
 	// Calculate x-coordinate in camera space (from -1 to 1)
-	camera_x = 2 * x / (double)WIDTH - 1;
+	camera_x = 2.0 * x / (double)WIDTH - 1.0;
 	
 	// Calculate ray direction
 	ray->dir_x = game->player.dir_x + game->camera.plane_x * camera_x;
@@ -61,16 +61,9 @@ void calculate_ray(t_game *game, t_ray *ray, int x)
 	ray->map_y = (int)game->player.pos_y;
 	
 	// Calculate delta distance (distance between x or y sides)
-	// Avoid division by zero
-	if (ray->dir_x == 0)
-		ray->delta_dist_x = 1e30;
-	else
-		ray->delta_dist_x = fabs(1 / ray->dir_x);
-	
-	if (ray->dir_y == 0)
-		ray->delta_dist_y = 1e30;
-	else
-		ray->delta_dist_y = fabs(1 / ray->dir_y);
+	// Improved handling of division by zero cases
+	ray->delta_dist_x = (ray->dir_x == 0) ? 1e30 : fabs(1.0 / ray->dir_x);
+	ray->delta_dist_y = (ray->dir_y == 0) ? 1e30 : fabs(1.0 / ray->dir_y);
 	
 	ray->hit = 0;  // Initialize hit to 0 (no wall hit yet)
 }
@@ -78,7 +71,7 @@ void calculate_ray(t_game *game, t_ray *ray, int x)
 
 // Perform DDA algorithm to find wall hits
 
-void perform_dda(t_game *game, t_ray *ray)
+void	perform_dda(t_game *game, t_ray *ray)
 {
 	// Calculate step direction and initial side distance
 	if (ray->dir_x < 0)
@@ -103,7 +96,7 @@ void perform_dda(t_game *game, t_ray *ray)
 		ray->side_dist_y = (ray->map_y + 1.0 - game->player.pos_y) * ray->delta_dist_y;
 	}
 	
-	// Perform DDA
+	// Perform DDA with improved boundary checking
 	while (ray->hit == 0)
 	{
 		// Jump to next map square, either in x-direction, or in y-direction
@@ -120,9 +113,12 @@ void perform_dda(t_game *game, t_ray *ray)
 			ray->side = 1;  // Y-side hit (EW wall)
 		}
 		
-		// Check if ray has hit a wall
-		if (game->map.map[ray->map_y][ray->map_x] == '1')
-			ray->hit = 1;
+		// Check if ray has hit a wall with boundary check
+		if (ray->map_y < 0 || ray->map_y >= game->map.height || 
+			ray->map_x < 0 || ray->map_x >= game->map.width)
+			ray->hit = 1;  // Hit map boundary, stop the loop
+		else if (game->map.map[ray->map_y][ray->map_x] == '1')
+			ray->hit = 1;  // Hit a wall, stop the loop
 	}
 }
 
@@ -130,24 +126,32 @@ void perform_dda(t_game *game, t_ray *ray)
 // Calculate perpendicular distance to the wall
 // This avoids fisheye effect
 
-void calculate_wall_distance(t_ray *ray, t_game *game)
+void	calculate_wall_distance(t_ray *ray, t_game *game)
 {
-	// Calculate perpendicular wall distance
+	// Calculate perpendicular wall distance to avoid fisheye effect
 	if (ray->side == 0)
 		ray->perp_wall_dist = (ray->map_x - game->player.pos_x + 
-			(1 - ray->step_x) / 2) / ray->dir_x;
+			(1 - ray->step_x) / 2.0) / ray->dir_x;
 	else
 		ray->perp_wall_dist = (ray->map_y - game->player.pos_y + 
-			(1 - ray->step_y) / 2) / ray->dir_y;
+			(1 - ray->step_y) / 2.0) / ray->dir_y;
+	
+	// Ensure we don't have negative distances
+	if (ray->perp_wall_dist < 0.1)
+		ray->perp_wall_dist = 0.1;
 }
 
 
 // Calculate height of wall stripe on screen
 
-void calculate_wall_height(t_ray *ray, int screen_height)
+void	calculate_wall_height(t_ray *ray, int screen_height)
 {
 	// Calculate height of the wall on screen
 	ray->line_height = (int)(screen_height / ray->perp_wall_dist);
+	
+	// Avoid excessively large line heights that could cause integer overflow
+	if (ray->line_height > 10 * screen_height)
+		ray->line_height = 10 * screen_height;
 	
 	// Calculate lowest and highest pixel to fill in current stripe
 	ray->draw_start = -ray->line_height / 2 + screen_height / 2;
@@ -162,11 +166,9 @@ void calculate_wall_height(t_ray *ray, int screen_height)
 
 // Calculate texture coordinates for the wall
 
-void calculate_texture_position(t_game *game, t_ray *ray, int x, t_tex_pos *tex)
+void	calculate_texture_position(t_game *game, t_ray *ray, t_tex_pos *tex)
 {
-	double wall_x;
-	
-	(void)x; // Unused parameter
+	double	wall_x;
 	
 	// Calculate value of wall_x (where exactly the wall was hit)
 	if (ray->side == 0)
@@ -175,7 +177,7 @@ void calculate_texture_position(t_game *game, t_ray *ray, int x, t_tex_pos *tex)
 		wall_x = game->player.pos_x + ray->perp_wall_dist * ray->dir_x;
 	wall_x -= floor(wall_x);
 	
-	// Select which texture to use based on wall direction
+	// Select which texture to use based on wall direction (N, S, E, W)
 	if (ray->side == 0 && ray->dir_x > 0)
 		tex->img = &game->tex_east;
 	else if (ray->side == 0 && ray->dir_x <= 0)
@@ -185,8 +187,14 @@ void calculate_texture_position(t_game *game, t_ray *ray, int x, t_tex_pos *tex)
 	else
 		tex->img = &game->tex_north;
 	
-	// Calculate x coordinate on the texture
+	// Calculate x coordinate on the texture with bounds checking
 	tex->x = (int)(wall_x * (double)tex->img->width);
+	if (tex->x >= tex->img->width)
+		tex->x = tex->img->width - 1;
+	
+	// Flip texture x-coordinate for east/west walls to maintain consistency
+	if ((ray->side == 0 && ray->dir_x > 0) || (ray->side == 1 && ray->dir_y < 0))
+		tex->x = tex->img->width - tex->x - 1;
 	
 	// Calculate y-coordinate stepping for the texture
 	tex->step = 1.0 * tex->img->height / ray->line_height;
@@ -198,11 +206,11 @@ void calculate_texture_position(t_game *game, t_ray *ray, int x, t_tex_pos *tex)
 
 // Draw a vertical stripe for a wall
 
-void draw_wall_stripe(t_game *game, int x, t_ray *ray)
+void	draw_wall_stripe(t_game *game, int x, t_ray *ray)
 {
-	int y;
-	t_tex_pos tex;
-	int color;
+	int			y;
+	t_tex_pos	tex;
+	int			color;
 	
 	// Draw ceiling from 0 to draw_start
 	y = 0;
@@ -213,24 +221,24 @@ void draw_wall_stripe(t_game *game, int x, t_ray *ray)
 	}
 	
 	// Calculate texture position
-	calculate_texture_position(game, ray, x, &tex);
+	calculate_texture_position(game, ray, &tex);
 	
-	// Draw the textured wall
+	// Draw the textured wall with improved texture coordinate handling
 	y = ray->draw_start;
 	while (y < ray->draw_end)
 	{
-		// Calculate texture y coordinate
+		// Calculate texture y coordinate with bounds checking
 		tex.y = (int)tex.pos & (tex.img->height - 1);
 		tex.pos += tex.step;
 		
-		// Get color from texture
+		// Get color from texture with error checking
 		color = get_pixel_color(tex.img, tex.x, tex.y);
 		
-		// Make color darker for y-sides
+		// Make color darker for y-sides to create a shadow effect
 		if (ray->side == 1)
 			color = (color >> 1) & 8355711; // Divide by 2 using bit shifting
 		
-		// Draw pixel
+		// Draw pixel with bounds checking
 		put_pixel(&game->img, x, y, color);
 		y++;
 	}
@@ -273,39 +281,25 @@ void	put_pixel(t_img *img, int x, int y, int color)
 }
 
 
-
-// Render a single frame
-
-int render_frame(t_game *game)
-{
-	// Clear the screen buffer
-	clear_image(&game->img, 0x000000);
-	
-	// Cast rays and draw walls
-	cast_rays(game);
-	
-	// Put image to window
-	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
-	
-	return (0);
-}
-
 //Clear image with a specific color
 
-void clear_image(t_img *img, int color)
+void	clear_image(t_img *img, int color)
 {
-	int x;
-	int y;
+	int	i;
+	int	*dst;
+	int	pixel_count;
+
+	if (!img || !img->addr)
+		return;
 	
-	y = 0;
-	while (y < HEIGHT)
+	// Optimize by treating image as int array
+	dst = (int*)img->addr;
+	pixel_count = WIDTH * HEIGHT;
+	
+	i = 0;
+	while (i < pixel_count)
 	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			put_pixel(img, x, y, color);
-			x++;
-		}
-		y++;
+		dst[i] = color;
+		i++;
 	}
 }

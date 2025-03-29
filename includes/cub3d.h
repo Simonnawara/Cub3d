@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/29 15:12:45 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/29 15:37:47 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "../libft/include/ft_printf.h"
 # include "../libft/include/get_next_line.h"
 # include "../libft/include/libft.h"
+# include <sys/time.h>
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
@@ -36,6 +37,21 @@
 # define WIDTH 1024
 # define HEIGHT 768
 
+# define MOVE_SPEED 0.05
+# define STRAFE_SPEED 0.04
+# define ROT_SPEED 0.03
+# define WALL_MARGIN 0.2
+
+/* FPS Control */
+# define FPS 60
+# define FRAME_TIME (1000000 / FPS)
+
+/* minimap constant*/
+#define MINIMAP_SIZE 200
+#define MINIMAP_SCALE 10
+#define MINIMAP_MARGIN 20
+#define MINIMAP_ALPHA 0.7
+
 /* Existing texture structure */
 typedef struct s_textures
 {
@@ -55,6 +71,15 @@ typedef struct s_textures
 	int		*color_c_array;
 }	t_textures;
 
+typedef struct s_keys
+{
+	int		w;
+	int		a;
+	int		s;
+	int		d;
+	int		left;
+	int		right;
+}	t_keys;
 /* MLX image structure */
 typedef struct s_img
 {
@@ -114,6 +139,13 @@ typedef struct s_ray
 	int		draw_end;
 }	t_ray;
 
+typedef struct s_time
+{
+	long	old_time;
+	long	current_time;
+	double	frame_time;
+}	t_time;
+
 /* Texture position for rendering */
 typedef struct s_tex_pos
 {
@@ -123,6 +155,7 @@ typedef struct s_tex_pos
 	double	pos;
 	double	step;
 }	t_tex_pos;
+
 
 // New map structure
 typedef struct s_map {
@@ -148,6 +181,8 @@ typedef struct s_game
 	int			floor_color;
 	int			ceiling_color;
 	char		*map_path;
+	t_keys		keys;
+	t_time		time;
 }	t_game;
 
 
@@ -161,10 +196,10 @@ t_textures  *init_textures(void);
 int textures_present(t_textures *textures);
 
 //main.c//
-int render_frame(t_game *game);
+//int render_frame(t_game *game);
 int handle_exit(t_game *game);
 int key_press(int keycode, t_game *game);
-int game_loop(t_game *game);
+//int game_loop(t_game *game);
 int load_map(t_game *game, const char *filename);
 int parse_file(t_game *game, const char *filename);
 int validate_inputs(int argc, char **argv);
@@ -210,10 +245,10 @@ void perform_dda(t_game *game, t_ray *ray);
 void calculate_wall_distance(t_ray *ray, t_game *game);
 void calculate_wall_height(t_ray *ray, int screen_height);
 void draw_wall_stripe(t_game *game, int x, t_ray *ray);
-void calculate_texture_position(t_game *game, t_ray *ray, int x, t_tex_pos *tex);
+void	calculate_texture_position(t_game *game, t_ray *ray, t_tex_pos *tex);
 int get_pixel_color(t_img *img, int x, int y);
 void put_pixel(t_img *img, int x, int y, int color);
-int render_frame(t_game *game);
+//int render_frame(t_game *game);
 void clear_image(t_img *img, int color);
 
 //move.c//
@@ -222,4 +257,27 @@ void strafe_player(t_game *game, double strafe_speed);
 void rotate_player(t_game *game, double rot_speed);
 int is_valid_move(t_game *game, double x, double y);
 int key_press(int keycode, t_game *game);
+int	key_release_state(int keycode, t_game *game);
+int	key_press_state(int keycode, t_game *game);
+
+//time.c//
+void	init_time(t_game *game);
+void	update_time(t_game *game);
+double	get_frame_time(t_game *game);
+void	frame_delay(t_game *game);
+
+// minimap.c //
+int	blend_colors(int color1, int color2, double alpha);
+void	draw_rect(t_game *game, int x, int y, int size, int color);
+void	draw_player(t_game *game, int minimap_x, int minimap_y);
+void	draw_line(t_game *game, int x0, int y0, int x1, int y1, int color);
+void	draw_minimap(t_game *game);
+
+// game_loop.c //
+void	init_key_states(t_game *game);
+int	game_loop(t_game *game);
+int	game_update(t_game *game);
+int	render_frame(t_game *game);
+void	draw_fps_counter(t_game *game);
+
 #endif

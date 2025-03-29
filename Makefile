@@ -6,7 +6,7 @@
 #    By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-#    Updated: 2025/03/28 16:29:27 by trouilla         ###   ########.fr        #
+#    Updated: 2025/03/29 15:35:47 by trouilla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,10 @@ SRCS =  main.c \
 		init.c \
 		cleanup.c \
 		raycasting.c \
-		move.c
+		move.c \
+		time.c \
+		minimap.c \
+		game_loop.c
 
 CC = gcc -g -O0
 CCFLAG = -Wall -Wextra -Werror
