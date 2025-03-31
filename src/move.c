@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:37:31 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/31 11:57:51 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/31 12:16:46 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,11 +263,11 @@ int is_valid_move(t_game *game, double x, double y)
     map_y = (int)y;
     
     // Debug print
-    printf("Checking position: (%f,%f) -> map[%d][%d] = %c\n", 
-           x, y, map_y, map_x, 
-           (map_y >= 0 && map_y < game->map.height && 
-            map_x >= 0 && map_x < game->map.width) ? 
-           game->map.map[map_y][map_x] : '?');
+    // printf("Checking position: (%f,%f) -> map[%d][%d] = %c\n", 
+    //        x, y, map_y, map_x, 
+    //        (map_y >= 0 && map_y < game->map.height && 
+    //         map_x >= 0 && map_x < game->map.width) ? 
+    //        game->map.map[map_y][map_x] : '?');
     
     // Check if position is out of bounds
     if (map_x < 0 || map_x >= game->map.width || 
