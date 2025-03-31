@@ -6,7 +6,7 @@
 #    By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-#    Updated: 2025/03/29 15:35:47 by trouilla         ###   ########.fr        #
+#    Updated: 2025/03/31 14:51:02 by trouilla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,15 @@ SRCS =  main.c \
 		parsing/parse_map.c \
 		parsing/color_check.c \
 		init.c \
+		init_utils.c \
 		cleanup.c \
 		raycasting.c \
 		move.c \
+		move_utils.c \
 		time.c \
 		minimap.c \
-		game_loop.c
+		game_loop.c \
+		fps.c
 
 CC = gcc -g -O0
 CCFLAG = -Wall -Wextra -Werror

@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 15:29:28 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/31 12:19:04 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:23:06 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,75 +164,7 @@ void	draw_line(t_game *game, int x0, int y0, int x1, int y1, int color)
 	}
 }
 
-/*
-** Draw minimap in the top-right corner of the screen
-*/
-// void	draw_minimap(t_game *game)
-// {
-// 	int	minimap_width;
-// 	int	minimap_height;
-// 	int	minimap_x;
-// 	int	minimap_y;
-// 	int	x;
-// 	int	y;
-// 	int	map_x;
-// 	int	map_y;
-// 	int	cell_size;
-// 	int	cell_color;
-	
-// 	// Calculate minimap dimensions and position
-// 	minimap_width = MINIMAP_SIZE;
-// 	minimap_height = MINIMAP_SIZE;
-// 	minimap_x = WIDTH - minimap_width - MINIMAP_MARGIN;
-// 	minimap_y = MINIMAP_MARGIN;
-	
-// 	// Draw minimap background (semi-transparent black)
-// 	draw_rect(game, minimap_x, minimap_y, minimap_width, 0x000000);
-	
-// 	// Draw map cells
-// 	cell_size = MINIMAP_SCALE;
-// 	y = 0;
-// 	while (y < game->map.height)
-// 	{
-// 		x = 0;
-// 		while (x < game->map.width)
-// 		{
-// 			// Calculate position on minimap
-// 			map_x = minimap_x + x * cell_size;
-// 			map_y = minimap_y + y * cell_size;
-			
-// 			// Skip cells outside the minimap area
-// 			if (map_x + cell_size < minimap_x || map_x >= minimap_x + minimap_width ||
-// 				map_y + cell_size < minimap_y || map_y >= minimap_y + minimap_height)
-// 			{
-// 				x++;
-// 				continue;
-// 			}
-			
-// 			// Choose color based on cell type
-// 			if (game->map.map[y][x] == '1')
-// 				cell_color = 0xFFFFFF; // White for walls
-// 			else if (game->map.map[y][x] == '0')
-// 				cell_color = 0x555555; // Gray for floors
-// 			else
-// 				cell_color = 0x000000; // Black for other (shouldn't happen)
-			
-// 			// Draw cell
-// 			draw_rect(game, map_x, map_y, cell_size, cell_color);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-	
-// 	// Draw player on minimap
-// 	draw_player(game, minimap_x, minimap_y);
-	
-// 	// Draw minimap border
-// 	draw_line(game, minimap_x, minimap_y, minimap_x + minimap_width, minimap_y, 0xFFFFFF);
-// 	draw_line(game, minimap_x + minimap_width, minimap_y, minimap_x + minimap_width, minimap_y + minimap_height, 0xFFFFFF);
-// 	draw_line(game, minimap_x + minimap_width, minimap_y + minimap_height, minimap_x, minimap_y + minimap_height, 0xFFFFFF);
-// 	draw_line(game, minimap_x, minimap_y + minimap_height, minimap_x, minimap_y, 0xFFFFFF);
-// }
+
 void draw_minimap(t_game *game)
 {
     int minimap_width;

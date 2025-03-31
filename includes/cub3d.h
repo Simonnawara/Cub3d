@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/31 11:53:57 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:50:51 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@
 # define WIDTH 1024
 # define HEIGHT 768
 
-# define MOVE_SPEED 0.05
-# define STRAFE_SPEED 0.04
+# define MOVE_SPEED 0.06
+# define STRAFE_SPEED 0.08
 # define ROT_SPEED 0.03
 # define WALL_MARGIN 0.2
 
@@ -212,8 +212,12 @@ int init_mlx(t_game *game);
 void init_player(t_game *game);
 void setup_player_direction(t_game *game);
 int	load_texture(t_game *game, t_img *texture, char *path);
-int	load_textures(t_game *game);
+
+// init_utils.c //
+void init_games(t_game *game);
 int parse_color(char *color_str);
+int	load_textures(t_game *game);
+void direction_north(t_game *game);
 
 //cleanup.c//
 void    free_map(t_map *map);
@@ -260,11 +264,16 @@ void clear_image(t_img *img, int color);
 //move.c//
 void move_player(t_game *game, double move_speed);
 void strafe_player(t_game *game, double strafe_speed);
+void	adjust_camera_plane(t_player *player, t_camera *camera);
+void	normalize_dir_vector(t_player *player);
 void rotate_player(t_game *game, double rot_speed);
-int is_valid_move(t_game *game, double x, double y);
+
+// move_utils.c //
 int key_press(int keycode, t_game *game);
+int	key_state_handler(t_game *game);
 int	key_release_state(int keycode, t_game *game);
 int	key_press_state(int keycode, t_game *game);
+int is_valid_move(t_game *game, double x, double y);
 
 //time.c//
 void	init_time(t_game *game);
@@ -284,8 +293,10 @@ void	init_key_states(t_game *game);
 int	game_loop(t_game *game);
 int	game_update(t_game *game);
 int	render_frame(t_game *game);
-void	draw_fps_counter(t_game *game);
 void process_movement(t_game *game, double time_factor);
 void test_player_movement(t_game *game, int frame_count);
+
+// fps.c //
+void	draw_fps_counter(t_game *game);
 
 #endif
