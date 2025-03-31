@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:37:31 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/29 15:21:22 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/31 11:57:51 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,21 +163,32 @@
 /*
 ** Move player forward or backward with improved collision detection
 */
-void	move_player(t_game *game, double move_speed)
+void move_player(t_game *game, double move_speed)
 {
-	double	new_x;
-	double	new_y;
+    double new_x;
+    double new_y;
+    
+    // Debug print
+    //printf("Moving player: speed=%f, pos=(%f,%f), dir=(%f,%f)\n", 
+           //move_speed, game->player.pos_x, game->player.pos_y, 
+           //game->player.dir_x, game->player.dir_y);
 
-	// Calculate new position
-	new_x = game->player.pos_x + game->player.dir_x * move_speed;
-	new_y = game->player.pos_y + game->player.dir_y * move_speed;
+    // Calculate new position
+    new_x = game->player.pos_x + game->player.dir_x * move_speed;
+    new_y = game->player.pos_y + game->player.dir_y * move_speed;
 
-	// Check collision and update position if valid, with separate checks for each axis
-	// This allows sliding along walls when moving at an angle
-	if (is_valid_move(game, new_x, game->player.pos_y))
-		game->player.pos_x = new_x;
-	if (is_valid_move(game, game->player.pos_x, new_y))
-		game->player.pos_y = new_y;
+    // Check collision and update position if valid
+    if (is_valid_move(game, new_x, game->player.pos_y))
+    {
+        game->player.pos_x = new_x;
+       // printf("Updated X pos: %f\n", game->player.pos_x);
+    }
+    
+    if (is_valid_move(game, game->player.pos_x, new_y))
+    {
+        game->player.pos_y = new_y;
+        //printf("Updated Y pos: %f\n", game->player.pos_y);
+    }
 }
 
 /*
@@ -242,60 +253,43 @@ void	rotate_player(t_game *game, double rot_speed)
 	game->camera.plane_y = game->camera.plane_y * 0.66 / plane_length;
 }
 
-/*
-** Check if a move is valid (no wall collision) with improved edge handling
-*/
-int	is_valid_move(t_game *game, double x, double y)
+int is_valid_move(t_game *game, double x, double y)
 {
-	int	map_x;
-	int	map_y;
-
-	// Get map coordinates
-	map_x = (int)x;
-	map_y = (int)y;
-
-	// Check if position is within map bounds
-	if (map_x < 0 || map_x >= game->map.width || 
-		map_y < 0 || map_y >= game->map.height)
-		return (0);
-
-	// Check for wall collision
-	if (game->map.map[map_y][map_x] == '1')
-		return (0);
-
-	// Enhanced wall proximity checking with diagonal wall detection
-	// Check for wall collision when close to edges
-	if (x - map_x < WALL_MARGIN && map_x > 0 && 
-		game->map.map[map_y][map_x - 1] == '1')
-		return (0);
-	if (map_x + 1 - x < WALL_MARGIN && map_x < game->map.width - 1 && 
-		game->map.map[map_y][map_x + 1] == '1')
-		return (0);
-	if (y - map_y < WALL_MARGIN && map_y > 0 && 
-		game->map.map[map_y - 1][map_x] == '1')
-		return (0);
-	if (map_y + 1 - y < WALL_MARGIN && map_y < game->map.height - 1 && 
-		game->map.map[map_y + 1][map_x] == '1')
-		return (0);
-
-	// Add diagonal wall checks for smoother corners
-	if (x - map_x < WALL_MARGIN && y - map_y < WALL_MARGIN && 
-		map_x > 0 && map_y > 0 && game->map.map[map_y - 1][map_x - 1] == '1')
-		return (0);
-	if (x - map_x < WALL_MARGIN && map_y + 1 - y < WALL_MARGIN && 
-		map_x > 0 && map_y < game->map.height - 1 && game->map.map[map_y + 1][map_x - 1] == '1')
-		return (0);
-	if (map_x + 1 - x < WALL_MARGIN && y - map_y < WALL_MARGIN && 
-		map_x < game->map.width - 1 && map_y > 0 && game->map.map[map_y - 1][map_x + 1] == '1')
-		return (0);
-	if (map_x + 1 - x < WALL_MARGIN && map_y + 1 - y < WALL_MARGIN && 
-		map_x < game->map.width - 1 && map_y < game->map.height - 1 && 
-		game->map.map[map_y + 1][map_x + 1] == '1')
-		return (0);
-
-	return (1);
+    int map_x;
+    int map_y;
+    
+    // Convert floating point position to integer map coordinates
+    map_x = (int)x;
+    map_y = (int)y;
+    
+    // Debug print
+    printf("Checking position: (%f,%f) -> map[%d][%d] = %c\n", 
+           x, y, map_y, map_x, 
+           (map_y >= 0 && map_y < game->map.height && 
+            map_x >= 0 && map_x < game->map.width) ? 
+           game->map.map[map_y][map_x] : '?');
+    
+    // Check if position is out of bounds
+    if (map_x < 0 || map_x >= game->map.width || 
+        map_y < 0 || map_y >= game->map.height)
+        return (0);
+    
+    // Check if position is a wall
+    if (game->map.map[map_y][map_x] == '1')
+        return (0);
+    
+    // For debugging, temporarily disable wall margin checks
+    return (1);
+    
+    // Wall margin checks (commented out for debugging)
+    /*
+    // Additional collision checks near walls
+    if (x - map_x < WALL_MARGIN && map_x > 0 && 
+        game->map.map[map_y][map_x - 1] == '1')
+        return (0);
+    ...etc...
+    */
 }
-
 /*
 ** Handle key press events with smooth movement
 */
@@ -353,43 +347,64 @@ int	key_state_handler(t_game *game)
 /*
 ** Set key state when pressed
 */
-int	key_press_state(int keycode, t_game *game)
+int key_press_state(int keycode, t_game *game)
 {
-	if (keycode == KEY_ESC)
-		return (clean_exit(game, 0));
-	else if (keycode == KEY_W)
-		game->keys.w = 1;
-	else if (keycode == KEY_S)
-		game->keys.s = 1;
-	else if (keycode == KEY_A)
-		game->keys.a = 1;
-	else if (keycode == KEY_D)
-		game->keys.d = 1;
-	else if (keycode == KEY_LEFT)
-		game->keys.left = 1;
-	else if (keycode == KEY_RIGHT)
-		game->keys.right = 1;
-	
-	return (0);
+    printf("Key pressed: %d\n", keycode);
+    
+    if (keycode == KEY_ESC)
+        return (clean_exit(game, 0));
+    else if (keycode == KEY_W)
+    {
+        printf("W key pressed\n");
+        game->keys.w = 1;
+    }
+    else if (keycode == KEY_S)
+    {
+        printf("S key pressed\n");
+        game->keys.s = 1;
+    }
+    else if (keycode == KEY_A)
+    {
+        printf("A key pressed\n");
+        game->keys.a = 1;
+    }
+    else if (keycode == KEY_D)
+    {
+        printf("D key pressed\n");
+        game->keys.d = 1;
+    }
+    else if (keycode == KEY_LEFT)
+    {
+        printf("LEFT key pressed\n");
+        game->keys.left = 1;
+    }
+    else if (keycode == KEY_RIGHT)
+    {
+        printf("RIGHT key pressed\n");
+        game->keys.right = 1;
+    }
+    
+    return (0);
 }
 
-/*
-** Reset key state when released
-*/
-int	key_release_state(int keycode, t_game *game)
+
+int key_release_state(int keycode, t_game *game)
 {
-	if (keycode == KEY_W)
-		game->keys.w = 0;
-	else if (keycode == KEY_S)
-		game->keys.s = 0;
-	else if (keycode == KEY_A)
-		game->keys.a = 0;
-	else if (keycode == KEY_D)
-		game->keys.d = 0;
-	else if (keycode == KEY_LEFT)
-		game->keys.left = 0;
-	else if (keycode == KEY_RIGHT)
-		game->keys.right = 0;
-	
-	return (0);
+    // Debug print
+    printf("Key released: %d\n", keycode);
+    
+    if (keycode == KEY_W)
+        game->keys.w = 0;
+    else if (keycode == KEY_S)
+        game->keys.s = 0;
+    else if (keycode == KEY_A)
+        game->keys.a = 0;
+    else if (keycode == KEY_D)
+        game->keys.d = 0;
+    else if (keycode == KEY_LEFT)
+        game->keys.left = 0;
+    else if (keycode == KEY_RIGHT)
+        game->keys.right = 0;
+    
+    return (0);
 }

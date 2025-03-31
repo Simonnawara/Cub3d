@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/31 10:39:13 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/31 11:53:57 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,18 @@
 # include <mlx.h>
 # include <fcntl.h>
 # include <ctype.h>
+# include <time.h>
 
 /* Key codes for events */
-# define KEY_ESC 53
-# define KEY_W 13
-# define KEY_A 0
-# define KEY_S 1
-# define KEY_D 2
-# define KEY_LEFT 123
-# define KEY_RIGHT 124
-
+# define KEY_ESC 65307
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_S 115
+# define KEY_D 100
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define KEY_UP 65362
+# define KEY_DOWN 65364
 /* Window dimensions */
 # define WIDTH 1024
 # define HEIGHT 768
@@ -283,5 +285,7 @@ int	game_loop(t_game *game);
 int	game_update(t_game *game);
 int	render_frame(t_game *game);
 void	draw_fps_counter(t_game *game);
+void process_movement(t_game *game, double time_factor);
+void test_player_movement(t_game *game, int frame_count);
 
 #endif
