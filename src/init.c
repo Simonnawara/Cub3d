@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:46:30 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/29 15:11:11 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:20:11 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,18 +162,45 @@ void setup_player_direction(t_game *game)
 // 	game->ceiling_color = parse_color(game->textures.color_c);
 // 	return (0);
 // }
-int	load_texture(t_game *game, t_img *texture, char *path)
+int load_texture(t_game *game, t_img *texture, char *path)
 {
-	texture->img = mlx_xpm_file_to_image(game->mlx, path,
-		&texture->width, &texture->height);
-	if (!texture->img)
-		return (0);
-	texture->addr = mlx_get_data_addr(texture->img,
-		&texture->bits_per_pixel, &texture->line_length, 
-		&texture->endian);
-	if (!texture->addr)
-		return (0);
-	return (1);
+    // Check if path exists and is valid
+    if (!path || access(path, F_OK | R_OK) != 0)
+    {
+        ft_printf("Error: Cannot access texture file: %s\n", path);
+        return (0);
+    }
+    
+    // Check if it's an XPM file
+    if (!is_xpm_file(path))
+    {
+        ft_printf("Error: Not an XPM file: %s\n", path);
+        return (0);
+    }
+    
+    // Load the texture
+    texture->img = mlx_xpm_file_to_image(game->mlx, path,
+                                        &texture->width, &texture->height);
+    if (!texture->img)
+    {
+        ft_printf("Error: Failed to load texture: %s\n", path);
+        return (0);
+    }
+    
+    // Get the texture address
+    texture->addr = mlx_get_data_addr(texture->img,
+                                     &texture->bits_per_pixel,
+                                     &texture->line_length,
+                                     &texture->endian);
+    if (!texture->addr)
+    {
+        ft_printf("Error: Failed to get texture data: %s\n", path);
+        return (0);
+    }
+    
+    ft_printf("Texture loaded successfully: %s (%dx%d)\n", 
+              path, texture->width, texture->height);
+    return (1);
 }
 
 int	load_textures(t_game *game)

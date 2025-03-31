@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 15:33:15 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/29 15:40:05 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:04:32 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	render_frame(t_game *game)
 	
 	// Draw minimap overlay
 	draw_minimap(game);
-	
 	// Display FPS counter (optional)
 	// draw_fps_counter(game);
 	
