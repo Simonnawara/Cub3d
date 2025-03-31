@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/31 10:04:28 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:39:13 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,10 @@ int flood_fill(char **map, int x, int y, int rows, int cols);
 int is_map_enclosed(char **map, int rows, int cols);
 int validate_map_content(char **map, int rows, int cols);
 int validate_map(char **map, int rows, int cols);
+char	**duplicate_map(char **map, int rows, int cols);
+
+// free.c // 
+void	free_map_copy(char **map_copy, int rows);
 
 //raycasting.c//
 void cast_rays(t_game *game);
