@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 10:54:36 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:21:59 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,13 @@ typedef struct s_img
 	int		height;
 	int		has_player;
 }	t_map; */
+/* Structure for rectangle coordinates and size */
+typedef struct s_rect
+{
+	int	x;
+	int	y;
+	int	size;
+}	t_rect;
 
 /* Player structure */
 typedef struct s_player
@@ -285,13 +292,6 @@ void	init_time(t_game *game);
 void	update_time(t_game *game);
 double	get_frame_time(t_game *game);
 void	frame_delay(t_game *game);
-
-// minimap.c //
-int	blend_colors(int color1, int color2, double alpha);
-void	draw_rect(t_game *game, int x, int y, int size, int color);
-void	draw_player(t_game *game, int minimap_x, int minimap_y);
-void	draw_line(t_game *game, int x0, int y0, int x1, int y1, int color);
-void	draw_minimap(t_game *game);
 
 // game_loop.c //
 void	init_key_states(t_game *game);

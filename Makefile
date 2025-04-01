@@ -6,7 +6,7 @@
 #    By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-#    Updated: 2025/04/01 10:58:09 by trouilla         ###   ########.fr        #
+#    Updated: 2025/04/01 11:23:15 by trouilla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,10 @@ SRCS =  main.c \
 		raycasting.c \
 		dda_raycasting.c \
 		calcul_raycasting.c \
+		draw.c \
 		move.c \
 		move_utils.c \
 		time.c \
-		minimap.c \
 		game_loop.c \
 		fps.c
 

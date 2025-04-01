@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 15:33:15 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/31 14:42:40 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:22:20 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	render_frame(t_game *game)
 {
 	clear_image(&game->img, 0x000000);
 	cast_rays(game);
-	draw_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 	return (0);
 }
