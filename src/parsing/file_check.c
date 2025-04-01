@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 22:05:17 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/29 14:02:33 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:56:44 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,13 @@ int textures_present(t_textures *textures)
 	if (textures->is_no == 1 && textures->is_so == 1
 		&& textures->is_ea == 1 && textures->is_we == 1
 		&& textures->is_c == 1 && textures->is_c == 1)
+		return (1);
+	return (0);
+}
+
+int colors_present(t_textures *textures)
+{
+	if (textures->is_c == 1 && textures->is_f == 1)
 		return (1);
 	return (0);
 }

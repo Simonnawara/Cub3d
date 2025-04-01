@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 11:44:24 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:06:23 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ int check_permission(const char *filename);
 int check_textures(const char *line, int i, t_textures *textures);
 t_textures  *init_textures(void);
 int textures_present(t_textures *textures);
+int	colors_present(t_textures *textures);
 
 //main.c//
 int key_press(int keycode, t_game *game);
@@ -240,9 +241,8 @@ void free_split(char **split);
 int is_map_line(const char *line);
 int is_texture_line(const char *line);
 char **allocate_map(int rows, int cols);
-char **extract_map(int fd, int *rows, int *cols);
-int validate_map_structure(const char *filename);
-
+char **extract_map(int fd, int *rows, int *cols, t_textures *textures);
+int validate_map_structure(const char *filename, t_textures *textures);
 //color_check.c//
 int is_valid_rgb_component(const char *str);
 int *rgb_split(const char *rgb_str);
@@ -254,7 +254,7 @@ int validate_map_content(char **map, int rows, int cols);
 int validate_map(char **map, int rows, int cols);
 char	**duplicate_map(char **map, int rows, int cols);
 
-// free.c // 
+// free.c //
 void	free_map_copy(char **map_copy, int rows);
 int handle_exit(t_game *game);
 

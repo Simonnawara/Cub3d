@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 11:44:39 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:06:01 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ int	load_map(t_game *game, const char *filename)
 	int	fd;
 	int	validation_result;
 
-	if (!validate_map_structure(filename))
+	if (!validate_map_structure(filename, &game->textures))
 		return (error_handle(game, "Invalid map structure"));
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (error_handle(game, "Cannot open file"));
 	rows = 0;
 	cols = 0;
-	game->map.map = extract_map(fd, &rows, &cols);
+	game->map.map = extract_map(fd, &rows, &cols, &game->textures);
 	close(fd);
 	if (!game->map.map)
 		return (error_handle(game, "Failed to extract map"));

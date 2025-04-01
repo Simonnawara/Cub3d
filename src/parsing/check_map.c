@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:43:14 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/31 17:14:15 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:12:08 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char **allocate_map(int rows, int cols)
 }
 
 
-char **extract_map(int fd, int *rows, int *cols)
+char **extract_map(int fd, int *rows, int *cols, t_textures *textures)
 {
     char *line;
     char **map;
@@ -96,7 +96,7 @@ char **extract_map(int fd, int *rows, int *cols)
     {
         line_status = is_map_line(line);
 
-        if (line_status == -1)  // Invalid map line
+        if (line_status == -1 && !textures_present(textures) && !colors_present(textures))  // Invalid map line
         {
             printf("Error: Invalid character in map line: %s", line);
             free(line);
@@ -146,7 +146,7 @@ char **extract_map(int fd, int *rows, int *cols)
             map[row][i] = '\0';
             row++;
         }
-        else if (line_status == -1)  // Invalid map line
+        else if (line_status == -1 && !textures_present(textures) && !colors_present(textures))  // Invalid map line
         {
             printf("Error: Invalid character in map line: %s", line);
             free(line);
@@ -160,7 +160,7 @@ char **extract_map(int fd, int *rows, int *cols)
 }
 
 
-int validate_map_structure(const char *filename)
+int validate_map_structure(const char *filename, t_textures *textures)
 {
     int fd = open(filename, O_RDONLY);
     if (fd == -1)
@@ -172,19 +172,24 @@ int validate_map_structure(const char *filename)
     char *line;
     int map_started = 0, valid_map_found = 0;
     int line_status;
+	int map_section_ended = 0;  // New flag to track if we've exited the map section
+
 
     // Check for correct sequence: textures first, then map
     while ((line = get_next_line(fd)) != NULL)
     {
-        if (line[0] == '\0' || (line[0] == '\n' && line[1] == '\0')) // Ignore empty lines
+		int is_empty = (line[0] == '\0' || (line[0] == '\n' && line[1] == '\0'));
+        if (is_empty) // Ignore empty lines
         {
+			if (map_started)
+                map_section_ended = 1;
             free(line);
             continue;
         }
 
         line_status = is_map_line(line);
 
-        if (line_status == -1)  // Invalid map line
+        if (line_status == -1 && !textures_present(textures) && !colors_present(textures))  // Invalid map line
         {
             printf("Error: Invalid character in map line: %s", line);
             free(line);
@@ -193,6 +198,16 @@ int validate_map_structure(const char *filename)
         }
         else if (line_status == 1) // Found a valid map line
         {
+			// If we find a map line after the map section was marked as ended,
+            // it means we have an empty line within the map
+            if (map_section_ended)
+            {
+                printf("Error: Empty line found within the map.\n");
+                free(line);
+                close(fd);
+                exit (1);
+            }
+
             map_started = 1;
             valid_map_found = 1;
         }
