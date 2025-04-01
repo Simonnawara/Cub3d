@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/31 14:50:51 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 10:54:36 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,14 +251,19 @@ void	free_map_copy(char **map_copy, int rows);
 //raycasting.c//
 void cast_rays(t_game *game);
 void calculate_ray(t_game *game, t_ray *ray, int x);
+void	init_dda_x(t_game *game, t_ray *ray);
+void	init_dda_y(t_game *game, t_ray *ray);
+int	check_ray_hit(t_game *game, t_ray *ray);
 void perform_dda(t_game *game, t_ray *ray);
 void calculate_wall_distance(t_ray *ray, t_game *game);
 void calculate_wall_height(t_ray *ray, int screen_height);
 void draw_wall_stripe(t_game *game, int x, t_ray *ray);
+void	draw_ceiling(t_game *game, int x, t_ray *ray);
+void	draw_floor(t_game *game, int x, t_ray *ray);
+void	draw_textured_wall(t_game *game, int x, t_ray *ray, t_tex_pos *tex);
 void	calculate_texture_position(t_game *game, t_ray *ray, t_tex_pos *tex);
 int get_pixel_color(t_img *img, int x, int y);
 void put_pixel(t_img *img, int x, int y, int color);
-//int render_frame(t_game *game);
 void clear_image(t_img *img, int color);
 
 //move.c//

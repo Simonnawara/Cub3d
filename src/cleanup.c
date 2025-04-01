@@ -6,34 +6,36 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:04 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/29 14:01:06 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:02:58 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
 /*
 ** Free map grid
 */
-void free_map(t_map *map)  // Changed to accept a pointer
+void	free_map(t_map *map)
 {
-    int i;
-    if (!map || !map->map)  // Check if map or map->map is NULL
-        return;
-    i = 0;
-    while (i < map->height)
-    {
-        if (map->map[i])
-            free(map->map[i]);
-        i++;
-    }
-    free(map->map);
-    map->map = NULL;
+	int	i;
+
+	if (!map || !map->map)
+		return ;
+	i = 0;
+	while (i < map->height)
+	{
+		if (map->map[i])
+			free(map->map[i]);
+		i++;
+	}
+	free(map->map);
+	map->map = NULL;
 }
 
 /*
 ** Free textures resources
 */
-void free_textures(t_game *game)
+void	free_textures(t_game *game)
 {
 	if (game->textures.path_no)
 		free(game->textures.path_no);
@@ -56,7 +58,7 @@ void free_textures(t_game *game)
 /*
 ** Free MLX image resources
 */
-void free_images(t_game *game)
+void	free_images(t_game *game)
 {
 	if (game->mlx)
 	{
@@ -78,41 +80,24 @@ void free_images(t_game *game)
 /*
 ** Clean up all resources and exit
 */
-int clean_exit(t_game *game, int status)
+int	clean_exit(t_game *game, int status)
 {
-	// Free textures paths
 	free_textures(game);
-	
-	// Free map grid
 	free_map(&game->map);
-	
-	// Free map path if it exists
 	if (game->map_path)
 		free(game->map_path);
-	
-	// Free MLX resources
 	free_images(game);
-	
 	exit(status);
 	return (status);
 }
 
 /*
-** Error handler
-*/
-int error_handle(t_game *game, char *error_message)
-{
-	ft_printf("Error\n%s\n", error_message);
-	return (clean_exit(game, 1));
-}
-
-/*
 ** Free array created by ft_split
 */
-void free_split(char **split)
+void	free_split(char **split)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (split[i])
 	{

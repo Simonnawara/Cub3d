@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 15:29:28 by trouilla          #+#    #+#             */
-/*   Updated: 2025/03/31 14:23:06 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:08:24 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	blend_colors(int color1, int color2, double alpha)
 	int	g;
 	int	b;
 
-	// Extract RGB components
 	r1 = (color1 >> 16) & 0xFF;
 	g1 = (color1 >> 8) & 0xFF;
 	b1 = color1 & 0xFF;
@@ -33,12 +32,10 @@ int	blend_colors(int color1, int color2, double alpha)
 	g2 = (color2 >> 8) & 0xFF;
 	b2 = color2 & 0xFF;
 	
-	// Blend colors using alpha
 	r = (int)(r1 * alpha + r2 * (1 - alpha));
 	g = (int)(g1 * alpha + g2 * (1 - alpha));
 	b = (int)(b1 * alpha + b2 * (1 - alpha));
 	
-	// Combine back into RGB
 	return ((r << 16) | (g << 8) | b);
 }
 
@@ -52,7 +49,6 @@ void	draw_rect(t_game *game, int x, int y, int size, int color)
 	int	current_color;
 	int	screen_color;
 
-	// Ensure rectangle is within screen bounds
 	if (x < 0 || y < 0 || x + size >= WIDTH || y + size >= HEIGHT)
 		return;
 	
@@ -62,13 +58,8 @@ void	draw_rect(t_game *game, int x, int y, int size, int color)
 		j = 0;
 		while (j < size)
 		{
-			// Get current screen color for blending
 			screen_color = get_pixel_color(&game->img, x + i, y + j);
-			
-			// Apply transparency
 			current_color = blend_colors(color, screen_color, MINIMAP_ALPHA);
-			
-			// Draw pixel
 			put_pixel(&game->img, x + i, y + j, current_color);
 			j++;
 		}
@@ -87,20 +78,13 @@ void	draw_player(t_game *game, int minimap_x, int minimap_y)
 	int	dir_y;
 	int	player_size;
 	
-	// Calculate player position on minimap
 	player_x = minimap_x + (int)(game->player.pos_x * MINIMAP_SCALE);
 	player_y = minimap_y + (int)(game->player.pos_y * MINIMAP_SCALE);
-	
-	// Draw player dot (red)
 	player_size = 4;
 	draw_rect(game, player_x - player_size / 2, player_y - player_size / 2, 
 			player_size, 0xFF0000);
-	
-	// Draw direction line
 	dir_x = player_x + (int)(game->player.dir_x * 10);
 	dir_y = player_y + (int)(game->player.dir_y * 10);
-	
-	// Draw line from player to direction
 	draw_line(game, player_x, player_y, dir_x, dir_y, 0xFF0000);
 }
 
@@ -144,8 +128,6 @@ void	draw_line(t_game *game, int x0, int y0, int x1, int y1, int color)
 		// Check if we reached end point
 		if (x0 == x1 && y0 == y1)
 			break;
-		
-		// Calculate next point
 		e2 = 2 * err;
 		if (e2 >= dy)
 		{

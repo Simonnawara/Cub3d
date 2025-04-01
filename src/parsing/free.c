@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:06:43 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/31 10:38:40 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:02:50 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,13 @@ void	free_map_copy(char **map_copy, int rows)
 		row++;
 	}
 	free(map_copy);
+}
+
+/*
+** Error handler
+*/
+int	error_handle(t_game *game, char *error_message)
+{
+	ft_printf("Error\n%s\n", error_message);
+	return (clean_exit(game, 1));
 }
