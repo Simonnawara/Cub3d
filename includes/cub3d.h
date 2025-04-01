@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 11:21:59 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:44:24 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,13 +205,15 @@ t_textures  *init_textures(void);
 int textures_present(t_textures *textures);
 
 //main.c//
-//int render_frame(t_game *game);
-int handle_exit(t_game *game);
 int key_press(int keycode, t_game *game);
-//int game_loop(t_game *game);
+int	check_validation_result(t_game *game, int result);
 int load_map(t_game *game, const char *filename);
-int parse_file(t_game *game, const char *filename);
 int validate_inputs(int argc, char **argv);
+
+// parse_files.c //
+int	skip_whitespace(char *line);
+int	process_config_line(t_game *game, char *line, int fd);
+int parse_file(t_game *game, const char *filename);
 
 //init.c//
 void init_game(t_game *game);
@@ -254,6 +256,7 @@ char	**duplicate_map(char **map, int rows, int cols);
 
 // free.c // 
 void	free_map_copy(char **map_copy, int rows);
+int handle_exit(t_game *game);
 
 //raycasting.c//
 void cast_rays(t_game *game);

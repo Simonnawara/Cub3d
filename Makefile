@@ -6,7 +6,7 @@
 #    By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-#    Updated: 2025/04/01 11:23:15 by trouilla         ###   ########.fr        #
+#    Updated: 2025/04/01 11:39:08 by trouilla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS =  main.c \
 		parsing/free.c \
 		parsing/parse_map.c \
 		parsing/color_check.c \
+		parse_file.c \
 		init.c \
 		init_utils.c \
 		cleanup.c \

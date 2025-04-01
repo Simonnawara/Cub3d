@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:06:43 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 11:02:50 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/01 11:44:14 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,9 @@ int	error_handle(t_game *game, char *error_message)
 {
 	ft_printf("Error\n%s\n", error_message);
 	return (clean_exit(game, 1));
+}
+
+int handle_exit(t_game *game)
+{
+	return (clean_exit(game, 0));
 }
