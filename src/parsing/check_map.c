@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:43:14 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 12:40:08 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:34:01 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,17 @@ int validate_map_structure(const char *filename, t_textures *textures)
     // Check for correct sequence: textures first, then map
     while ((line = get_next_line(fd)) != NULL)
     {
-        int is_empty = (line[0] == '\0' || (line[0] == '\n' && line[1] == '\0'));
+        int is_empty = 1;  // Assume empty until proven otherwise
+        int i = 0;
+        while (line[i])
+        {
+            if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n' && line[i] != '\r')
+            {
+                is_empty = 0;  // Found a non-whitespace character
+                break;
+            }
+            i++;
+        }
 
         if (is_empty) // Handle empty lines
         {

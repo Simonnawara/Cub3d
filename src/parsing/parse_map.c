@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:09:40 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 11:13:05 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:13:17 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,44 @@ void print_map(char **map, int rows, int cols)
     }
 }
 
+int is_player_position_valid(char **map, int rows, int cols)
+{
+    int y, x;
+
+    // Find player position (N, S, E, W)
+    for (y = 0; y < rows; y++)
+    {
+        for (x = 0; x < cols; x++)
+        {
+            if (map[y][x] == 'N' || map[y][x] == 'S' ||
+                map[y][x] == 'E' || map[y][x] == 'W')
+            {
+                // Check if player is at map boundary
+                if (y == 0 || y == rows - 1 || x == 0 || x == cols - 1)
+                {
+                    printf("Error: Player starting position cannot be at map boundary [%d,%d]\n", y, x);
+                    return (0);
+                }
+
+                // Check if player is next to an empty space or map boundary
+                if (map[y-1][x] == ' ' || map[y+1][x] == ' ' ||
+                    map[y][x-1] == ' ' || map[y][x+1] == ' ')
+                {
+                    printf("Error: Player starting position must be properly enclosed by walls [%d,%d]\n", y, x);
+                    return (0);
+                }
+
+                // Found valid player position
+                return (1);
+            }
+        }
+    }
+
+    // No player found (though this should be caught by validate_map_content)
+    printf("Error: No player starting position found\n");
+    return (0);
+}
+
 int validate_map(char **map, int rows, int cols)
 {
 	char **map_copy;
@@ -175,6 +213,8 @@ int validate_map(char **map, int rows, int cols)
 	enclosed = 0;
 	if (!validate_map_content(map, rows, cols))
 		return (0);
+    if (!is_player_position_valid(map, rows, cols))	// Check player position isn't at boundary
+		return (-3);
 	map_copy = duplicate_map(map, rows, cols);
 	if (!map_copy)
 		return (0);
