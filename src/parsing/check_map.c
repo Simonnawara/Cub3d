@@ -3,29 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:43:14 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/29 14:21:46 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/03/31 17:14:15 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+void free_map_1(char **map, int rows)
+{
+    for (int i = 0; i < rows; i++)
+        free(map[i]);
+    free(map);
+}
+
 // Function to check if a line is a map line
 int is_map_line(const char *line)
 {
     int has_valid_char = 0;
+    int has_invalid_char = 0;
 
+    // First check if this is a texture line
+    while (*line && ft_isspace(*line)) // Skip leading spaces
+        line++;
+
+    // Check if this is a texture identifier line
+    if (strncmp(line, "NO ", 3) == 0 || strncmp(line, "SO ", 3) == 0 ||
+        strncmp(line, "WE ", 3) == 0 || strncmp(line, "EA ", 3) == 0 ||
+        strncmp(line, "F ", 2) == 0 || strncmp(line, "C ", 2) == 0)
+        return (0); // Not a map line, but a valid texture line
+
+    // If not a texture line, check if it's a valid map line
     while (*line)
     {
-        if (*line == '0' || *line == '1' || *line == 'N' || *line == 'S' || *line == 'E' || *line == 'W')
-            has_valid_char = 1;
-        else if (!ft_isspace(*line))  // Any invalid character found
-            return (0);
+        if (*line == '0' || *line == '1' || *line == 'N' || *line == 'S' ||
+            *line == 'E' || *line == 'W' || ft_isspace(*line))
+        {
+            if (*line != ' ' && *line != '\t' && *line != '\n' && *line != '\r')
+                has_valid_char = 1;
+        }
+        else
+        {
+            has_invalid_char = 1;
+        }
         line++;
     }
-    return (has_valid_char);  // Return true only if at least one valid map character is found
+
+    if (has_invalid_char)
+        return (-1);  // Invalid map line (contains characters that are not valid)
+    return (has_valid_char ? 1 : 0);  // 1 if valid map line, 0 if blank/whitespace line
 }
 
 // Function to check if a line is a texture/config line
@@ -61,22 +89,35 @@ char **extract_map(int fd, int *rows, int *cols)
     char *line;
     char **map;
     int row = 0, col_len = 0, i;
+    int line_status;
 
-    // First pass: determine dimensions
+    // First pass: determine dimensions and check for invalid characters
     while ((line = get_next_line(fd)) != NULL)
     {
-        if (is_map_line(line))
+        line_status = is_map_line(line);
+
+        if (line_status == -1)  // Invalid map line
+        {
+            printf("Error: Invalid character in map line: %s", line);
+            free(line);
+            return (NULL);
+        }
+        else if (line_status == 1)  // Valid map line
         {
             int len = ft_strlen(line);
             if (len > col_len)
                 col_len = len; // Get max width of the map
             (*rows)++;
         }
+        // line_status == 0 means either a texture line or empty line, skip it
         free(line);
     }
-    *cols = col_len;    
+    *cols = col_len;
     if (*rows == 0)
+    {
+        printf("Error: No valid map lines found\n");
         return (NULL);
+    }
 
     // Allocate map
     map = allocate_map(*rows, col_len);
@@ -90,7 +131,9 @@ char **extract_map(int fd, int *rows, int *cols)
     row = 0;
     while ((line = get_next_line(fd)) != NULL)
     {
-        if (is_map_line(line))
+        line_status = is_map_line(line);
+
+        if (line_status == 1)  // Valid map line
         {
             i = 0;
             while (line[i] && line[i] != '\n')
@@ -100,13 +143,23 @@ char **extract_map(int fd, int *rows, int *cols)
             }
             while (i < col_len) // Fill remaining spaces with empty spaces
                 map[row][i++] = ' ';
-            map[row][i] = '\0';            
+            map[row][i] = '\0';
             row++;
         }
+        else if (line_status == -1)  // Invalid map line
+        {
+            printf("Error: Invalid character in map line: %s", line);
+            free(line);
+            free_map_1(map, *rows);
+            return (NULL);
+        }
+        // Skip texture lines and empty lines
         free(line);
     }
     return (map);
 }
+
+
 int validate_map_structure(const char *filename)
 {
     int fd = open(filename, O_RDONLY);
@@ -118,17 +171,27 @@ int validate_map_structure(const char *filename)
 
     char *line;
     int map_started = 0, valid_map_found = 0;
+    int line_status;
 
     // Check for correct sequence: textures first, then map
     while ((line = get_next_line(fd)) != NULL)
     {
-        if (line[0] == '\0' || line[0] == '\n') // Ignore empty lines
+        if (line[0] == '\0' || (line[0] == '\n' && line[1] == '\0')) // Ignore empty lines
         {
             free(line);
             continue;
         }
 
-        if (is_map_line(line)) // Found a map line
+        line_status = is_map_line(line);
+
+        if (line_status == -1)  // Invalid map line
+        {
+            printf("Error: Invalid character in map line: %s", line);
+            free(line);
+            close(fd);
+            return (0);
+        }
+        else if (line_status == 1) // Found a valid map line
         {
             map_started = 1;
             valid_map_found = 1;
