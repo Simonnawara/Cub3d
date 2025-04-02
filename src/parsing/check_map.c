@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:43:14 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 12:40:08 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:52:38 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,12 @@ int is_map_line(const char *line)
         line++;
     }
 
+	if (has_invalid_char && !has_valid_char)
+	return (-2); // Completely invalid line (not even a partial map line)
+
     if (has_invalid_char)
         return (-1);  // Invalid map line (contains characters that are not valid)
+
     return (has_valid_char ? 1 : 0);  // 1 if valid map line, 0 if blank/whitespace line
 }
 
@@ -111,6 +115,12 @@ char **extract_map(int fd, int *rows, int *cols, t_textures *textures)
             free(line);
             return (NULL);
         }
+		if (line_status == -2) // Completely invalid line
+		{
+			printf("Error: Invalid line in map: %s\n", line);
+			free(line);
+			return (NULL);
+		}
         // Skip non-map lines
         free(line);
     }
@@ -181,7 +191,17 @@ int validate_map_structure(const char *filename, t_textures *textures)
     // Check for correct sequence: textures first, then map
     while ((line = get_next_line(fd)) != NULL)
     {
-        int is_empty = (line[0] == '\0' || (line[0] == '\n' && line[1] == '\0'));
+        int is_empty = 1;  // Assume empty until proven otherwise
+        int i = 0;
+        while (line[i])
+        {
+            if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n' && line[i] != '\r')
+            {
+                is_empty = 0;  // Found a non-whitespace character
+                break;
+            }
+            i++;
+        }
 
         if (is_empty) // Handle empty lines
         {
@@ -221,6 +241,13 @@ int validate_map_structure(const char *filename, t_textures *textures)
             close(fd);
             return (0);
         }
+		else if (line_status == -2)
+		{
+			printf("Error: Invalid line detected in file: %s\n", line);
+			free(line);
+			close(fd);
+			return (0);
+		}
         free(line);
     }
     close(fd);
