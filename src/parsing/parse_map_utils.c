@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:09:40 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 14:15:03 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:50:37 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	validate_map_content(char **map, int rows, int cols)
 		{
 			if (!check_valid_char(map[y][x], &player_count))
 			{
-				print_return_error("Error: Invalid character\n", 0);
+				return (print_return_error("Error: Invalid character\n", 0));
 			}
 			x++;
 		}

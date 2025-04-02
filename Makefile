@@ -6,7 +6,7 @@
 #    By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-#    Updated: 2025/04/02 11:51:51 by sinawara         ###   ########.fr        #
+#    Updated: 2025/04/02 17:59:02 by sinawara         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,9 @@ SRCS =  main.c \
 		parsing/texture_check.c \
 		parsing/texture_check2.c \
 		parsing/check_map.c \
+		parsing/check_map_utils.c \
+		parsing/check_map_utils2.c \
+		parsing/check_map_utils3.c \
 		parsing/free.c \
 		parsing/parse_map.c \
 		parsing/parse_map_utils.c \

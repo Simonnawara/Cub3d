@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 14:07:17 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:58:45 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,14 @@ typedef struct s_img
 }				t_img;
 
 
-/* Map structure */
-/* typedef struct s_map
+typedef struct s_map_data
 {
-	char	**grid;
-	int		width;
-	int		height;
-	int		has_player;
-}	t_map; */
+	char	**map;
+	int		row;
+	int		cols;
+	int		map_started;
+}	t_map_data;
+
 /* Structure for rectangle coordinates and size */
 typedef struct s_rect
 {
@@ -260,11 +260,28 @@ int				error_handle(t_game *game, char *error_message);
 void			free_split(char **split);
 
 //check_map.c//
-int is_map_line(const char *line);
-int is_texture_line(const char *line);
-char **allocate_map(int rows, int cols);
-char **extract_map(int fd, int *rows, int *cols, t_textures *textures);
-int validate_map_structure(const char *filename);
+char	**extract_map(int fd, int *rows, int *cols, t_textures *textures);
+int	check_empty_line(char *line);
+int	handle_map_section(char *line, int *map_started,
+	int *map_section_ended, int *valid_map_found);
+int	validate_map_structure(const char *filename);
+
+// check_map_utils.c //
+void	free_map_1(char **map, int rows);
+int	return_char_value(int has_valid_char, int has_invalid_char);
+int	is_map_line(const char *line);
+int	is_texture_line(const char *line);
+
+// check_map_utils2.c //
+char	**allocate_map(int rows, int cols);
+char	**init_map_data(int rows, int cols);
+int	process_map_line_data(char *line, t_map_data *data);
+char	**fill_map_data(int fd, int rows, int cols);
+
+// check_map_utils3.c //
+void	process_map_line(char **map, char *line, int row, int col_len);
+int	process_map_row_data(char *line, int *cols, int *map_started);
+int	count_map_rows(int fd, int *cols);
 
 //color_check.c//
 int is_valid_rgb_component(const char *str);
@@ -273,6 +290,7 @@ int *rgb_split(const char *rgb_str);
 // error.c //
 void print_error(char *error_message);
 int print_return_error(char *error_message, int return_value);
+int	print_return_free(char *error_message, int return_value, char *line);
 
 
 // color_check.c//

@@ -1,26 +1,16 @@
+check_map_utils2.c: OK!
+error.c: OK!
+check_map_utils.c: OK!
+texture_check2.c: OK!
+texture_check.c: OK!
+file_check_utils.c: OK!
+check_map_utils3.c: OK!
+parse_map_utils2.c: OK!
+parse_map_utils.c: OK!
 check_map.c: Error!
-Error: FORBIDDEN_CS         (line:  17, col:   5):	Forbidden control structure
-Error: TOO_MANY_FUNCS       (line:  94, col:   1):	Too many functions in file
-Error: TOO_MANY_VARS_FUNC   (line: 101, col:   1):	Too many variables declarations in a function
-Error: TOO_MANY_VARS_FUNC   (line: 102, col:   1):	Too many variables declarations in a function
-Error: TOO_MANY_VARS_FUNC   (line: 103, col:   1):	Too many variables declarations in a function
-Error: ASSIGN_IN_CONTROL    (line: 109, col:  18):	Assignment in control structure
-Error: ASSIGN_IN_CONTROL    (line: 146, col:  18):	Assignment in control structure
-Error: TOO_MANY_LINES       (line: 173, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 175, col:   1):	Too many functions in file
-Error: TOO_MANY_VARS_FUNC   (line: 182, col:   1):	Too many variables declarations in a function
-Error: TOO_MANY_VARS_FUNC   (line: 183, col:   1):	Too many variables declarations in a function
-Error: TOO_MANY_VARS_FUNC   (line: 184, col:   1):	Too many variables declarations in a function
-Error: ASSIGN_IN_CONTROL    (line: 195, col:  18):	Assignment in control structure
-Error: TOO_MANY_LINES       (line: 259, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_LINES       (line: 111, col:   1):	Function has more than 25 lines
+parse_map.c: OK!
+free.c: OK!
+file_check.c: OK!
 color_check.c: Error!
 Error: TOO_MANY_LINES       (line:  84, col:   1):	Function has more than 25 lines
-file_check.c: OK!
-free.c: OK!
-error.c: OK!
-file_check_utils.c: OK!
-texture_check.c: OK!
-texture_check2.c: OK!
-parse_map.c: OK!
-parse_map_utils.c: OK!
-parse_map_utils2.c: OK!
