@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:09:40 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 14:12:49 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:15:11 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	flood_fill(char **map, t_cord *cord, int rows, int cols)
 {
-	int	up;
-	int	right;
-	int	down;
-	int	left;
-	t_cord new_cord;
+	int		up;
+	int		right;
+	int		down;
+	int		left;
+	t_cord	new_cord;
 
 	if (cord->y < 0 || cord->y >= rows || cord->x < 0 || cord->x >= cols)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:43:14 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 11:04:12 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:27:08 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@ void	free_map_1(char **map, int rows)
 	for (int i = 0; i < rows; i++)
 		free(map[i]);
 	free(map);
+}
+
+int	return_char_value(int has_valid_char, int has_invalid_char)
+{
+	if (has_invalid_char && !has_valid_char)
+		return (-2);
+	if (has_invalid_char)
+		return (-1);
+	if (has_valid_char)
+		return (1);
+	else
+		return (0);
 }
 
 // Function to check if a line is a map line
@@ -42,16 +54,10 @@ int	is_map_line(const char *line)
 				has_valid_char = 1;
 		}
 		else
-		{
 			has_invalid_char = 1;
-		}
 		line++;
 	}
-	if (has_invalid_char && !has_valid_char)
-		return (-2);
-	if (has_invalid_char)
-		return (-1);
-	return (has_valid_char ? 1 : 0);
+	return (return_char_value(has_valid_char, has_invalid_char));
 }
 
 // Function to check if a line is a texture/config line
