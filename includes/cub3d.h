@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 13:38:41 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:07:17 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,6 @@ typedef struct s_img
 	int			height;
 }				t_img;
 
-typedef struct s_flood
-{
-	int rows;
-	int cols
-}		t_flood;
-
 
 /* Map structure */
 /* typedef struct s_map
@@ -179,6 +173,12 @@ typedef struct s_map
 	int			height;
 	int			width;
 }				t_map;
+
+typedef struct s_cord
+{
+	int x;
+	int y;
+}	t_cord;
 
 /* Main game structure */
 typedef struct s_game
@@ -280,7 +280,7 @@ int				is_valid_rgb_component(const char *str);
 int				*rgb_split(const char *rgb_str);
 
 // parse_map.c//
-int				flood_fill(char **map, int x, int y, int rows, int cols);
+int	flood_fill(char **map, t_cord *cord, int rows, int cols);
 char	**allocate_map_copy(int rows, int cols);
 char	**duplicate_map(char **map, int rows, int cols);
 void	print_map(char **map, int rows, int cols);

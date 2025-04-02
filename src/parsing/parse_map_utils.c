@@ -6,29 +6,41 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:09:40 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 13:34:42 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:13:19 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+void *init_cord(void)
+{
+		t_cord	*cord;
+	
+		cord = malloc(sizeof(t_cord));
+		if (!cord)
+			return (NULL);
+		cord->x= 0;
+		cord->y = 0;
+		return (cord);
+}
+
 int	find_start_position(char **map, int rows, int cols)
 {
-	int	x;
-	int	y;
+	t_cord *cord;
 
-	y = 0;
-	while (y < rows)
+	cord = init_cord();
+	cord->y = 0;
+	while (cord->y < rows)
 	{
-		x = 0;
-		while (x < cols)
+		cord->x = 0;
+		while (cord->x < cols)
 		{
-			if (map[y][x] == '0' || map[y][x] == 'N' || map[y][x] == 'S'
-				|| map[y][x] == 'E' || map[y][x] == 'W')
-				return (flood_fill(map, y, x, rows, cols));
-			x++;
+			if (map[cord->y][cord->x] == '0' || map[cord->y][cord->x] == 'N' || map[cord->y][cord->x] == 'S'
+				|| map[cord->y][cord->x] == 'E' || map[cord->y][cord->x] == 'W')
+				return (flood_fill(map, cord, rows, cols));
+			cord->x++;
 		}
-		y++;
+		cord->y++;
 	}
 	return (1);
 }

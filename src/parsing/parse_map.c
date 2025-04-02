@@ -6,30 +6,37 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:09:40 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 11:59:03 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:12:49 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	flood_fill(char **map, int y, int x, int rows, int cols)
+int	flood_fill(char **map, t_cord *cord, int rows, int cols)
 {
 	int	up;
 	int	right;
 	int	down;
 	int	left;
+	t_cord new_cord;
 
-	if (y < 0 || y >= rows || x < 0 || x >= cols)
+	if (cord->y < 0 || cord->y >= rows || cord->x < 0 || cord->x >= cols)
 		return (0);
-	if (map[y][x] == '1' || map[y][x] == 'X')
+	if (map[cord->y][cord->x] == '1' || map[cord->y][cord->x] == 'X')
 		return (1);
-	if (map[y][x] == ' ')
+	if (map[cord->y][cord->x] == ' ')
 		return (0);
-	map[y][x] = 'X';
-	up = flood_fill(map, y - 1, x, rows, cols);
-	right = flood_fill(map, y, x + 1, rows, cols);
-	down = flood_fill(map, y + 1, x, rows, cols);
-	left = flood_fill(map, y, x - 1, rows, cols);
+	map[cord->y][cord->x] = 'X';
+	new_cord = *cord;
+	new_cord.y = cord->y - 1;
+	up = flood_fill(map, &new_cord, rows, cols);
+	new_cord.y = cord->y + 1;
+	down = flood_fill(map, &new_cord, rows, cols);
+	new_cord.y = cord->y;
+	new_cord.x = cord->x + 1;
+	right = flood_fill(map, &new_cord, rows, cols);
+	new_cord.x = cord->x - 1;
+	left = flood_fill(map, &new_cord, rows, cols);
 	return (up && right && down && left);
 }
 
