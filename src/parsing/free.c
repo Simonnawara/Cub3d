@@ -3,22 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:06:43 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 11:44:14 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:47:39 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void free_map_array(char **map, int height) {
-    if (map) {
-        for (int i = 0; i < height; i++) {
-            free(map[i]);
-        }
-        free(map);
-    }
+void	free_map_array(char **map, int height)
+{
+	int	i;
+
+	i = 0;
+	if (map)
+	{
+		while (i < height)
+		{
+			free(map[i]);
+			i++;
+		}
+		free(map);
+	}
 }
 
 /*
@@ -29,8 +36,7 @@ void	free_map_copy(char **map_copy, int rows)
 	int	row;
 
 	if (!map_copy)
-		return;
-
+		return ;
 	row = 0;
 	while (row < rows)
 	{
@@ -50,7 +56,7 @@ int	error_handle(t_game *game, char *error_message)
 	return (clean_exit(game, 1));
 }
 
-int handle_exit(t_game *game)
+int	handle_exit(t_game *game)
 {
 	return (clean_exit(game, 0));
 }

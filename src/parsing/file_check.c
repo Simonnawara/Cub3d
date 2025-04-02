@@ -6,68 +6,20 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 22:05:17 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 19:08:43 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:42:03 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int is_cub_file(const char *filename)
-{
-    const char *ext;
-
-	ext = ft_strrchr(filename, '.');
-
-    if (!ext || ext == filename)
-        return 0;
-
-    return ft_strcmp(ext, ".cub") == 0;
-}
-
-int is_xpm_file(const char *filename)
-{
-    const char *ext;
-
-	ext = ft_strrchr(filename, '.');
-
-    if (!ext || ext == filename)
-        return 0;
-
-    return ft_strcmp(ext, ".xpm") == 0;
-}
-
-int check_permission(const char *filename)
-{
-	int fd;
-
-	fd = open(filename, O_RDONLY);
-	if (fd == -1) //check for file permissions
-	{
-		perror("Error opening file");
-		return (1);
-	}
-
-	close(fd);
-	return (0);
-}
-
-int textures_present(t_textures *textures)
-{
-	if (textures->is_no == 1 && textures->is_so == 1
-		&& textures->is_ea == 1 && textures->is_we == 1
-		&& textures->is_c == 1 && textures->is_c == 1)
-		return (1);
-	return (0);
-}
-
-int colors_present(t_textures *textures)
+int	colors_present(t_textures *textures)
 {
 	if (textures->is_c == 1 && textures->is_f == 1)
 		return (1);
 	return (0);
 }
 
-t_textures  *init_textures(void)
+t_textures	*init_textures(void)
 {
 	t_textures	*textures;
 
@@ -81,104 +33,42 @@ t_textures  *init_textures(void)
 	return (textures);
 }
 
-int check_textures(const char *line, int i, t_textures *textures)
+int	dispatch_texture_handler(const char *texture, const char *line,
+	int y, t_textures *textures)
 {
-	char texture[3];
-	int j;
-	int y;
+	int	j;
+
+	j = 0;
+	while (line[y + j] && !ft_isspace(line[y + j]))
+		j++;
+	if (ft_strcmp(texture, "NO") == 0)
+		return (handle_no_texture(line, y, j, textures));
+	if (ft_strcmp(texture, "SO") == 0)
+		return (handle_so_texture(line, y, j, textures));
+	if (ft_strcmp(texture, "EA") == 0)
+		return (handle_ea_texture(line, y, j, textures));
+	if (ft_strcmp(texture, "WE") == 0)
+		return (handle_we_texture(line, y, j, textures));
+	if (ft_strcmp(texture, "F ") == 0)
+		return (handle_f_color(line, y, j, textures));
+	if (ft_strcmp(texture, "C ") == 0)
+		return (handle_c_color(line, y, j, textures));
+	return (0);
+}
+
+int	check_textures(const char *line, int i, t_textures *textures)
+{
+	char	texture[3];
+	int		j;
+	int		y;
 
 	j = 0;
 	y = i + 2;
-
 	while (i < y)
 		texture[j++] = line[i++];
 	texture[j] = '\0';
-
-	while (line[i] && ft_isspace(line[i])) //skips whitespace between NO && path
+	while (line[i] && ft_isspace(line[i]))
 		i++;
-
 	y = i;
-	j = 0;
-
-	while (line[i] && !ft_isspace(line[i])) // Get size of path
-    {
-        i++;
-        j++;
-    }
-
-    if (ft_strcmp(texture, "NO") == 0)
-    {
-        textures->is_no = 1;
-        textures->path_no = malloc(sizeof(char) * (j + 1)); // Allocate +1 for '\0'
-        if (!textures->path_no)
-            return (1);
-        ft_strncpy(textures->path_no, &line[y], j);
-        textures->path_no[j] = '\0';
-		if (check_permission(textures->path_no) && is_xpm_file(textures->path_no))
-			return (1);
-    }
-    if (ft_strcmp(texture, "SO") == 0)
-    {
-        textures->is_so = 1;
-        textures->path_so = malloc(sizeof(char) * (j + 1));
-        if (!textures->path_so)
-            return (1);
-        ft_strncpy(textures->path_so, &line[y], j);
-        textures->path_so[j] = '\0';
-		if (check_permission(textures->path_so) && is_xpm_file(textures->path_so))
-			return (1);
-    }
-    if (ft_strcmp(texture, "EA") == 0)
-    {
-        textures->is_ea = 1;
-        textures->path_ea = malloc(sizeof(char) * (j + 1));
-        if (!textures->path_ea)
-            return (1);
-        ft_strncpy(textures->path_ea, &line[y], j);
-        textures->path_ea[j] = '\0';
-		if (check_permission(textures->path_ea) && is_xpm_file(textures->path_ea))
-			return (1);
-    }
-    if (ft_strcmp(texture, "WE") == 0)
-    {
-        textures->is_we = 1;
-        textures->path_we = malloc(sizeof(char) * (j + 1));
-        if (!textures->path_we)
-            return (1);
-        ft_strncpy(textures->path_we, &line[y], j);
-        textures->path_we[j] = '\0';
-		if (check_permission(textures->path_we) && is_xpm_file(textures->path_we))
-			return (1);
-    }
-	if (ft_strcmp(texture, "F ") == 0)
-    {
-        textures->is_f = 1;
-        textures->color_f = malloc(sizeof(char) * (j + 1));
-        if (!textures->color_f)
-            return (1);
-        ft_strncpy(textures->color_f, &line[y], j);
-        textures->color_f[j] = '\0';
-		textures->color_f_array = rgb_split(textures->color_f);
-		if (!textures->color_f_array)
-		{
-			printf("Error with the color codes\n");
-			return (1);
-		}
-    }
-	if (ft_strcmp(texture, "C ") == 0)
-    {
-        textures->is_c = 1;
-        textures->color_c = malloc(sizeof(char) * (j + 1));
-        if (!textures->color_c)
-            return (1);
-        ft_strncpy(textures->color_c, &line[y], j);
-        textures->color_c[j] = '\0';
-		textures->color_c_array = rgb_split(textures->color_c);
-		if (!textures->color_c_array)
-		{
-			printf("Error with the color codes\n");
-			return (1);
-		}
-    }
-	return (0);
+	return (dispatch_texture_handler(texture, line, y, textures));
 }

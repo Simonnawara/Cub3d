@@ -3,78 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   color_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 11:26:56 by sinawara          #+#    #+#             */
-/*   Updated: 2025/03/29 14:03:04 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:48:55 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int is_valid_rgb_component(const char *str)
+int	is_valid_rgb_component(const char *str)
 {
-	int num;
+	int	num;
+	int	i;
 
-	// Check if the string is empty
+	i = 0;
 	if (!str || *str == '\0')
 		return (0);
-
-	// Check if the string contains only digits
-	for (int i = 0; str[i]; i++)
+	while (str[i])
 	{
 		if (!isdigit(str[i]))
 			return (0);
+		i++;
 	}
-
-	// Convert to integer and check range
 	num = ft_atoi(str);
 	if (num < 0 || num > 255)
 		return (0);
-
 	return (1);
 }
 
-int *rgb_split(const char *rgb_str)
+int	*rgb_split(const char *rgb_str)
 {
-	int *rgb;
-	char **split;
-	int i;
+	int		*rgb;
+	char	**split;
+	int		i;
 
-	// Null check
 	if (!rgb_str)
 		return (NULL);
-
-	// Check for invalid characters (only digits, commas allowed)
-	for (int i = 0; rgb_str[i]; i++)
+	i = 0;
+	while (rgb_str[i])
 	{
 		if (!isdigit(rgb_str[i]) && rgb_str[i] != ',')
 			return (NULL);
+		i++;
 	}
-
-	// Split the input string
 	split = ft_split(rgb_str, ',');
 	if (!split)
 		return (NULL);
-
-	// Count the number of elements
-	for (i = 0; split[i]; i++);
-	if (i != 3) // Must be exactly 3 components
+	i = 0;
+	while (split[i])
+		i++;
+	if (i != 3)
 	{
 		free(split);
 		return (NULL);
 	}
-
-	// Allocate memory for RGB values
 	rgb = (int *)malloc(sizeof(int) * 3);
 	if (!rgb)
 	{
 		free(split);
 		return (NULL);
 	}
-
-	// Validate and convert each part
-	for (i = 0; i < 3; i++)
+	i = 0;
+	while (i < 3)
 	{
 		if (!is_valid_rgb_component(split[i]))
 		{
@@ -84,14 +75,12 @@ int *rgb_split(const char *rgb_str)
 		}
 		rgb[i] = ft_atoi(split[i]);
 		free(split[i]);
+		i++;
 	}
-
 	free(split);
-
 	if (rgb)
 		printf("R: %d, G: %d, B: %d\n", rgb[0], rgb[1], rgb[2]);
 	else
 		printf("Invalid RGB input!\n");
-
 	return (rgb);
 }

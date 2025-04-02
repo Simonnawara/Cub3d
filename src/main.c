@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 19:50:12 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:41:08 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	load_map(t_game *game, const char *filename)
 	int	fd;
 	int	validation_result;
 
-	if (!validate_map_structure(filename, &game->textures))
+	if (!validate_map_structure(filename))
 		return (error_handle(game, "Invalid map structure"));
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
