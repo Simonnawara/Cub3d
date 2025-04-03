@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:43:14 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 18:07:39 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/03 10:25:27 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,36 +75,28 @@ int	handle_map_section(char *line, int *map_started, int *map_section_ended,
 int	validate_map_structure(const char *filename)
 {
 	char	*line;
-	int		map_started;
-	int		valid_map_found;
-	int		map_section_ended;
 	int		fd;
+	int		map_stat[3];
 
-	map_started = 0;
-	valid_map_found = 0;
-	map_section_ended = 0;
+	init_map_status(map_stat);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (print_return_error("Error opening file", 0));
-	while ((line = get_next_line(fd)) != NULL)
+	while (1)
 	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
 		if (check_empty_line(line))
 		{
-			if (map_started)
-				map_section_ended = 1;
+			if (map_stat[0])
+				map_stat[2] = 1;
 			free(line);
 			continue ;
 		}
-		if (!handle_map_section(line, &map_started, &map_section_ended,
-				&valid_map_found))
-		{
-			close(fd);
-			return (0);
-		}
+		if (!handle_map_section(line, &map_stat[0], &map_stat[2], &map_stat[1]))
+			return (close_return(fd, 0));
 		free(line);
 	}
-	close(fd);
-	if (!valid_map_found)
-		return (print_return_error("No map found in the file", 0));
-	return (1);
+	return (close_return_stat(fd, map_stat[1]));
 }

@@ -1,16 +1,16 @@
-check_map_utils2.c: OK!
-error.c: OK!
-check_map_utils.c: OK!
-texture_check2.c: OK!
-texture_check.c: OK!
-file_check_utils.c: OK!
-check_map_utils3.c: OK!
-parse_map_utils2.c: OK!
-parse_map_utils.c: OK!
-check_map.c: Error!
-Error: TOO_MANY_LINES       (line: 111, col:   1):	Function has more than 25 lines
-parse_map.c: OK!
-free.c: OK!
+color_check.c: OK!
 file_check.c: OK!
-color_check.c: Error!
-Error: TOO_MANY_LINES       (line:  84, col:   1):	Function has more than 25 lines
+free.c: OK!
+file_check_utils.c: OK!
+texture_check.c: OK!
+texture_check2.c: OK!
+parse_map.c: OK!
+parse_map_utils2.c: OK!
+check_map.c: OK!
+check_map_utils.c: OK!
+check_map_utils2.c: OK!
+check_map_utils3.c: OK!
+error.c: OK!
+parse_map_utils.c: OK!
+check_map_utils4.c: OK!
+color_check_utils1.c: OK!
