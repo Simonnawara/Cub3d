@@ -1,0 +1,150 @@
+==137027== Memcheck, a memory error detector
+==137027== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==137027== Using Valgrind-3.18.1-42b08ed5bd-20211015 and LibVEX; rerun with -h for copyright info
+==137027== Command: ./cub3D maps/test.cub
+==137027== Parent PID: 1668
+==137027== 
+--137027-- 
+--137027-- Valgrind options:
+--137027--    --leak-check=full
+--137027--    --show-leak-kinds=all
+--137027--    --track-origins=yes
+--137027--    --verbose
+--137027--    --log-file=valgrind_report.txt
+--137027-- Contents of /proc/version:
+--137027--   Linux version 5.15.167.4-microsoft-standard-WSL2 (root@f9c826d3017f) (gcc (GCC) 11.2.0, GNU ld (GNU Binutils) 2.37) #1 SMP Tue Nov 5 00:21:55 UTC 2024
+--137027-- 
+--137027-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand-rdseed
+--137027-- Page sizes: currently 4096, max supported 4096
+--137027-- Valgrind library directory: /usr/libexec/valgrind
+--137027-- Reading syms from /home/simna/student/Cub3d/cub3D
+--137027-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+--137027--   Considering /usr/lib/debug/.build-id/e4/de036b19e4768e7591b596c4be9f9015f2d28a.debug ..
+--137027--   .. build-id is valid
+--137027-- Reading syms from /usr/libexec/valgrind/memcheck-amd64-linux
+--137027--    object doesn't have a symbol table
+--137027--    object doesn't have a dynamic symbol table
+--137027-- Scheduler: using generic scheduler lock implementation.
+--137027-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==137027== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-137027-by-simna-on-???
+==137027== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-137027-by-simna-on-???
+==137027== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-137027-by-simna-on-???
+==137027== 
+==137027== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==137027== don't want to do, unless you know exactly what you're doing,
+==137027== or are doing some strange experiment):
+==137027==   /usr/bin/vgdb --pid=137027 ...command...
+==137027== 
+==137027== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==137027==   /path/to/gdb ./cub3D
+==137027== and then give GDB the following command
+==137027==   target remote | /usr/bin/vgdb --pid=137027
+==137027== --pid is optional if only one valgrind process is running
+==137027== 
+--137027-- REDIR: 0x402aa40 (ld-linux-x86-64.so.2:strlen) redirected to 0x580bcec2 (???)
+--137027-- REDIR: 0x402a810 (ld-linux-x86-64.so.2:index) redirected to 0x580bcedc (???)
+--137027-- Reading syms from /usr/libexec/valgrind/vgpreload_core-amd64-linux.so
+--137027--    object doesn't have a symbol table
+--137027-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
+--137027--    object doesn't have a symbol table
+==137027== WARNING: new redirection conflicts with existing -- ignoring it
+--137027--     old: 0x0402aa40 (strlen              ) R-> (0000.0) 0x580bcec2 ???
+--137027--     new: 0x0402aa40 (strlen              ) R-> (2007.0) 0x0484ee30 strlen
+--137027-- REDIR: 0x4027220 (ld-linux-x86-64.so.2:strcmp) redirected to 0x484fcd0 (strcmp)
+--137027-- REDIR: 0x402afa0 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4853840 (mempcpy)
+--137027-- Reading syms from /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+--137027--    object doesn't have a symbol table
+--137027-- Reading syms from /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+--137027--    object doesn't have a symbol table
+--137027-- Reading syms from /usr/lib/x86_64-linux-gnu/libm.so.6
+--137027--   Considering /usr/lib/debug/.build-id/7d/8778fca8ea4621b268cc03662855d0cd983439.debug ..
+--137027--   .. build-id is valid
+--137027-- Reading syms from /usr/lib/x86_64-linux-gnu/libc.so.6
+--137027--   Considering /usr/lib/debug/.build-id/cd/410b710f0f094c6832edd95931006d883af48e.debug ..
+--137027--   .. build-id is valid
+==137027== WARNING: new redirection conflicts with existing -- ignoring it
+--137027--     old: 0x04b43c60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--137027--     new: 0x04b43c60 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
+==137027== WARNING: new redirection conflicts with existing -- ignoring it
+--137027--     old: 0x04b43c60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--137027--     new: 0x04b43c60 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
+==137027== WARNING: new redirection conflicts with existing -- ignoring it
+--137027--     old: 0x04b43c60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--137027--     new: 0x04b43c60 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
+==137027== WARNING: new redirection conflicts with existing -- ignoring it
+--137027--     old: 0x04b43c60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--137027--     new: 0x04b43c60 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
+--137027-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+--137027--    object doesn't have a symbol table
+--137027-- Reading syms from /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+--137027--    object doesn't have a symbol table
+--137027-- Reading syms from /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+--137027--    object doesn't have a symbol table
+--137027-- Reading syms from /usr/lib/x86_64-linux-gnu/libbsd.so.0.11.5
+--137027--    object doesn't have a symbol table
+--137027-- Reading syms from /usr/lib/x86_64-linux-gnu/libmd.so.0.0.5
+--137027--    object doesn't have a symbol table
+--137027-- REDIR: 0x4b46720 (libc.so.6:strnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b469e0 (libc.so.6:strpbrk) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b462e0 (libc.so.6:strcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b64cd0 (libc.so.6:wcsnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b476d0 (libc.so.6:memset) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b63540 (libc.so.6:wcslen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b47c10 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b63370 (libc.so.6:wcschr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b46260 (libc.so.6:index) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b46960 (libc.so.6:rindex) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b475a0 (libc.so.6:memmove) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+==137027== Preferring higher priority redirection:
+--137027--     old: 0x04c3e7c0 (__memcpy_avx_unalign) R-> (2018.0) 0x04850f90 __memcpy_avx_unaligned_erms
+--137027--     new: 0x04c3e7c0 (__memcpy_avx_unalign) R-> (2018.1) 0x04852880 memmove
+--137027-- REDIR: 0x4b633f0 (libc.so.6:wcscmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b479e0 (libc.so.6:stpncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b639b0 (libc.so.6:wmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b46830 (libc.so.6:strncmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b47a70 (libc.so.6:strcasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b46420 (libc.so.6:strcspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b63470 (libc.so.6:wcscpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b461d0 (libc.so.6:strcat) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b47b60 (libc.so.6:strncasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b47480 (libc.so.6:bcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b4f570 (libc.so.6:memrchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b49010 (libc.so.6:strchrnul) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b46390 (libc.so.6:strcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b47b10 (libc.so.6:strcasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b466a0 (libc.so.6:strlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b468d0 (libc.so.6:strncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b47950 (libc.so.6:stpcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b473f0 (libc.so.6:memchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b46b00 (libc.so.6:strspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b477d0 (libc.so.6:mempcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b47ac0 (libc.so.6:strncasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4b48f80 (libc.so.6:rawmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--137027-- REDIR: 0x4c3b610 (libc.so.6:__strrchr_avx2) redirected to 0x484e810 (rindex)
+--137027-- REDIR: 0x4b430a0 (libc.so.6:malloc) redirected to 0x4848820 (malloc)
+--137027-- REDIR: 0x4b433e0 (libc.so.6:free) redirected to 0x484b210 (free)
+--137027-- REDIR: 0x4c36d80 (libc.so.6:__strncmp_avx2) redirected to 0x484f3e0 (strncmp)
+--137027-- REDIR: 0x4c3b7e0 (libc.so.6:__strlen_avx2) redirected to 0x484ed10 (strlen)
+--137027-- REDIR: 0x4c3e780 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4853440 (mempcpy)
+==137027== 
+==137027== HEAP SUMMARY:
+==137027==     in use at exit: 14 bytes in 1 blocks
+==137027==   total heap usage: 92 allocs, 91 frees, 681,316 bytes allocated
+==137027== 
+==137027== Searching for pointers to 1 not-freed blocks
+==137027== Checked 185,928 bytes
+==137027== 
+==137027== 14 bytes in 1 blocks are still reachable in loss record 1 of 1
+==137027==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==137027==    by 0x115903: ft_strdup (in /home/simna/student/Cub3d/cub3D)
+==137027==    by 0x11274A: parse_file (parse_file.c:53)
+==137027==    by 0x10FDE3: main (main.c:88)
+==137027== 
+==137027== LEAK SUMMARY:
+==137027==    definitely lost: 0 bytes in 0 blocks
+==137027==    indirectly lost: 0 bytes in 0 blocks
+==137027==      possibly lost: 0 bytes in 0 blocks
+==137027==    still reachable: 14 bytes in 1 blocks
+==137027==         suppressed: 0 bytes in 0 blocks
+==137027== 
+==137027== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

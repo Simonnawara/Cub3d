@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 22:05:17 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 11:42:03 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:44:44 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,23 @@ int	colors_present(t_textures *textures)
 	if (textures->is_c == 1 && textures->is_f == 1)
 		return (1);
 	return (0);
+}
+
+void free_textures1(t_textures *textures)
+{
+    if (!textures)
+        return;
+
+    if (textures->path_no)
+        free(textures->path_no);
+    if (textures->path_so)
+        free(textures->path_so);
+    if (textures->path_ea)
+        free(textures->path_ea);
+    if (textures->path_we)
+        free(textures->path_we);
+
+    free(textures);
 }
 
 t_textures	*init_textures(void)
@@ -30,6 +47,10 @@ t_textures	*init_textures(void)
 	textures->is_so = 0;
 	textures->is_ea = 0;
 	textures->is_we = 0;
+	textures->path_no = NULL;
+    textures->path_so = NULL;
+    textures->path_ea = NULL;
+    textures->path_we = NULL;
 	return (textures);
 }
 

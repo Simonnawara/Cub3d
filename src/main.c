@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:23 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 13:41:08 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:43:31 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	load_map(t_game *game, const char *filename)
 		return (error_handle(game, "Failed to extract map"));
 	game->map.height = rows;
 	game->map.width = cols;
-	validation_result = validate_map(game->map.map, rows, cols);
+	validation_result = validate_map(game->map.map, rows, cols, &game->textures);
 	return (check_validation_result(game, validation_result));
 }
 

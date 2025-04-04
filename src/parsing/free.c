@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:06:43 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/02 10:47:39 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:45:32 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,50 @@ int	error_handle(t_game *game, char *error_message)
 int	handle_exit(t_game *game)
 {
 	return (clean_exit(game, 0));
+}
+
+// cleanup_utils.c or similar
+
+
+void cleanup_textures(t_textures *textures)
+{
+    // Free texture paths
+    if (textures->path_no)
+        free(textures->path_no);
+    if (textures->path_so)
+        free(textures->path_so);
+    if (textures->path_ea)
+        free(textures->path_ea);
+    if (textures->path_we)
+        free(textures->path_we);
+
+    // Free color data
+    if (textures->color_f)
+        free(textures->color_f);
+    if (textures->color_c)
+        free(textures->color_c);
+
+    // Free color arrays
+    if (textures->color_f_array)
+        free(textures->color_f_array);
+    if (textures->color_c_array)
+        free(textures->color_c_array);
+}
+
+void cleanup_map(char **map, int rows)
+{
+    int i;
+
+    if (!map)
+        return;
+
+    // Free each row
+    for (i = 0; i < rows; i++)
+    {
+        if (map[i])
+            free(map[i]);
+    }
+
+    // Free the array of pointers
+    free(map);
 }

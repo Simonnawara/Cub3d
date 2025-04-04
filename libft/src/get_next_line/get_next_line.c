@@ -12,12 +12,14 @@
 
 #include "get_next_line.h"
 
-static char	*extract_line(char *stash)
+/* static char	*extract_line(char *stash)
 {
 	size_t	i;
 	char	*line;
 
 	i = 0;
+	if (!stash)
+		return (NULL);
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (stash[i] == '\n')
@@ -49,6 +51,8 @@ static char	*save_leftover(char *stash)
 
 	i = 0;
 	j = 0;
+	if (!stash)
+		return (NULL);
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (!stash[i])
@@ -74,7 +78,10 @@ static char	*handle_final_line(char **stash)
 {
 	char	*line;
 
-	if (!*stash || !**stash)
+
+	if (!*stash)
+		return (NULL);
+	if (!**stash)
 	{
 		free(*stash);
 		*stash = NULL;
@@ -98,6 +105,11 @@ static char	*read_and_update_stash(int fd, char **stash)
 	char	*temp;
 	ssize_t	bytes_read;
 
+	if (!*stash)
+	*stash = ft_strdup_gnl("");
+	if (!*stash)
+		return (NULL);
+
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
@@ -110,7 +122,7 @@ static char	*read_and_update_stash(int fd, char **stash)
 		}
 		buffer[bytes_read] = '\0';
 		temp = *stash;
-		*stash = ft_strjoin_gnl(*stash, buffer);
+		*stash = ft_strjoin_gnl(temp, buffer);
 		free(temp);
 		if (!*stash)
 			return (NULL);
@@ -143,7 +155,7 @@ char	*get_next_line(int fd)
 		return (line);
 	}
 	return (handle_final_line(&stash));
-}
+} */
 
 /*
 # include <stdio.h>
@@ -169,3 +181,23 @@ int	main(void)
 	//system("leaks a.out");
 	return (0);
 } */
+
+char *get_next_line(int fd)
+{
+    //int 	rd = 0;
+    char	*c;
+    char 	*buffer = malloc(10000);
+
+	c = buffer;
+    while (read(fd, c, 1) > 0 && *c++ != '\n');
+    if (c > buffer)
+	{
+        *c = 0;
+        return (buffer);
+    }
+	else
+	{
+		free(buffer);
+		return (NULL);
+	}
+}

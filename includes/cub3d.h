@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/03 11:01:46 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:46:27 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,11 +208,6 @@ int				check_textures(const char *line, int i, t_textures *textures);
 t_textures		*init_textures(void);
 int				textures_present(t_textures *textures);
 int				colors_present(t_textures *textures);
-int				is_cub_file(const char *filename);
-int				is_xpm_file(const char *filename);
-int				check_permission(const char *filename);
-int				check_textures(const char *line, int i, t_textures *textures);
-t_textures		*init_textures(void);
 int				textures_present(t_textures *textures);
 
 // texture_check.c //
@@ -258,6 +253,8 @@ void			direction_north(t_game *game);
 // cleanup.c//
 void			free_map(t_map *map);
 void			free_textures(t_game *game);
+void 			cleanup_textures(t_textures *textures);
+void			cleanup_map(char **map, int rows);
 void			free_images(t_game *game);
 int				clean_exit(t_game *game, int status);
 int				error_handle(t_game *game, char *error_message);
@@ -323,13 +320,13 @@ void			print_map(char **map, int rows, int cols);
 int				find_start_position(char **map, int rows, int cols);
 int				is_map_enclosed(char **map, int rows, int cols);
 int				check_valid_char(char c, int *player_count);
-int				validate_map_content(char **map, int rows, int cols);
+int				validate_map_content(char **map, int rows, int cols, t_textures *textures);
 
 // parse_map_utils2.c //
 int				is_player_char(char c);
 int				check_player_surroundings(char **map, int y, int x);
 int				is_player_position_valid(char **map, int rows, int cols);
-int				validate_map(char **map, int rows, int cols);
+int				validate_map(char **map, int rows, int cols, t_textures *textures);
 
 // free.c //
 void			free_map_copy(char **map_copy, int rows);
