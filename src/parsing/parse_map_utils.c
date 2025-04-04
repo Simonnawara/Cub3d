@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:09:40 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/04 15:35:32 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:57:51 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ int	validate_map_content(char **map, int rows, int cols, t_game *game)
 	if (player_count != 1)
 	{
 		print_error("Map must contain exactly one player start position!");
-		// cleanup_textures(&game->textures); // Assuming 'textures' is your t_textures variable
-		// cleanup_map(map, rows);
-		// exit(1);
 		clean_exit(game, 1);
 	}
 	return (1);

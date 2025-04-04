@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/04 15:31:27 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:01:14 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,8 +253,6 @@ void			direction_north(t_game *game);
 // cleanup.c//
 void			free_map(t_map *map);
 void			free_textures(t_game *game);
-void 			cleanup_textures(t_textures *textures);
-void			cleanup_map(char **map, int rows);
 void			free_images(t_game *game);
 int				clean_exit(t_game *game, int status);
 int				error_handle(t_game *game, char *error_message);
