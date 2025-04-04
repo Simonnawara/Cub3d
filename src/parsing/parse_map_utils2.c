@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:09:40 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/04 14:47:00 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:28:52 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ int	is_player_position_valid(char **map, int rows, int cols)
 	return (0);
 }
 
-int	validate_map(char **map, int rows, int cols, t_textures *textures)
+int	validate_map(char **map, int rows, int cols, t_game *game)
 {
 	char	**map_copy;
 	int		enclosed;
 
 	print_map(map, rows, cols);
 	enclosed = 0;
-	if (!validate_map_content(map, rows, cols, textures))
+	if (!validate_map_content(map, rows, cols, game))
 		return (0);
 	if (!is_player_position_valid(map, rows, cols))
 		return (-3);
