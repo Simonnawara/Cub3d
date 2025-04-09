@@ -3,20 +3,31 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+         #
+#    By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 10:34:09 by sinawara          #+#    #+#              #
-#    Updated: 2025/04/01 11:39:08 by trouilla         ###   ########.fr        #
+#    Updated: 2025/04/03 10:46:40 by sinawara         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
 SRCS =  main.c \
 		parsing/file_check.c \
+		parsing/file_check_utils.c \
+		parsing/texture_check.c \
+		parsing/texture_check2.c \
 		parsing/check_map.c \
+		parsing/check_map_utils.c \
+		parsing/check_map_utils2.c \
+		parsing/check_map_utils3.c \
+		parsing/check_map_utils4.c \
 		parsing/free.c \
 		parsing/parse_map.c \
+		parsing/parse_map_utils.c \
+		parsing/parse_map_utils2.c \
 		parsing/color_check.c \
+		parsing/color_check_utils1.c \
+		parsing/error.c \
 		parse_file.c \
 		init.c \
 		init_utils.c \
@@ -81,7 +92,7 @@ $(OBJ_DIR):
 $(NAME) : $(OBJECT)
 	@$(LOGO)
 	@make -C $(LIBFT_DIR)
-	@make -C $(MLX_DIR)
+	@make -s -C $(MLX_DIR)
 	@$(CC) $(CCFLAG) -o $(NAME) $(OBJECT) $(LIBS)
 	@echo "$(SUCCESS_COLOR)$(NAME) - Compiled with Success"
 

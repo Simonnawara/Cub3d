@@ -6,129 +6,76 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:09:40 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 18:13:17 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:15:11 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-
-int flood_fill(char **map, int y, int x, int rows, int cols)
+int	flood_fill(char **map, t_cord *cord, int rows, int cols)
 {
-    // Base cases
-    if (y < 0 || y >= rows || x < 0 || x >= cols)
-        return (0);  // Found an opening
+	int		up;
+	int		right;
+	int		down;
+	int		left;
+	t_cord	new_cord;
 
-    if (map[y][x] == '1' || map[y][x] == 'X')
-        return (1);  // Wall or already visited
-
-    if (map[y][x] == ' ')
-        return (0);  // Found an opening
-
-    // Mark as visited
-    map[y][x] = 'X';
-
-    // Check all four adjacent cells - ORDER IS IMPORTANT: y is the row, x is the column
-    int up = flood_fill(map, y - 1, x, rows, cols);
-    int right = flood_fill(map, y, x + 1, rows, cols);
-    int down = flood_fill(map, y + 1, x, rows, cols);
-    int left = flood_fill(map, y, x - 1, rows, cols);
-
-    // If any direction leads to an opening, the map is not enclosed
-    return (up && right && down && left);
-}
-/*
-** Check if map is enclosed by walls
-*/
-int is_map_enclosed(char **map, int rows, int cols)
-{
-    int x, y;
-    int is_enclosed = 1;
-
-    // Find a starting point (player or empty space)
-    y = 0;
-    while (y < rows && is_enclosed)
-    {
-        x = 0;
-        while (x < cols && is_enclosed)
-        {
-            if (map[y][x] == '0' || map[y][x] == 'N' ||
-                map[y][x] == 'S' || map[y][x] == 'E' || map[y][x] == 'W')
-            {
-                // Call flood_fill with correct parameter order (y, x)
-                is_enclosed = flood_fill(map, y, x, rows, cols);
-                if (!is_enclosed)
-                    printf("Error: Map is not enclosed by walls at or near position [%d,%d]\n", y, x);
-                return (is_enclosed); // Return immediately after finding a position
-            }
-            x++;
-        }
-        y++;
-    }
-
-    return (is_enclosed);
+	if (cord->y < 0 || cord->y >= rows || cord->x < 0 || cord->x >= cols)
+		return (0);
+	if (map[cord->y][cord->x] == '1' || map[cord->y][cord->x] == 'X')
+		return (1);
+	if (map[cord->y][cord->x] == ' ')
+		return (0);
+	map[cord->y][cord->x] = 'X';
+	new_cord = *cord;
+	new_cord.y = cord->y - 1;
+	up = flood_fill(map, &new_cord, rows, cols);
+	new_cord.y = cord->y + 1;
+	down = flood_fill(map, &new_cord, rows, cols);
+	new_cord.y = cord->y;
+	new_cord.x = cord->x + 1;
+	right = flood_fill(map, &new_cord, rows, cols);
+	new_cord.x = cord->x - 1;
+	left = flood_fill(map, &new_cord, rows, cols);
+	return (up && right && down && left);
 }
 
-int validate_map_content(char **map, int rows, int cols)
-{
-    int y, x;  // y for rows, x for columns
-    int player_count = 0;
-
-    y = 0;  // Iterate through rows
-    while (y < rows)
-    {
-        x = 0;  // Iterate through columns
-        while (x < cols)
-        {
-
-            // Check for valid characters
-            if (map[y][x] != '0' && map[y][x] != '1' && map[y][x] != ' ' &&
-                map[y][x] != 'N' && map[y][x] != 'S' && map[y][x] != 'E' &&
-                map[y][x] != 'W' && map[y][x] != '\r' && map[y][x] != '\0')
-            {
-                printf("Error: Invalid character '%c' at position [%d,%d]\n", map[y][x], y, x);
-                return (0);
-            }
-
-            // Count player positions
-            if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E' || map[y][x] == 'W')
-                player_count++;
-            x++;
-        }
-        y++;
-    }
-	printf("Player count: %d\n", player_count);
-    if (player_count != 1)
-    {
-        printf("Error: Map must contain exactly one player start position!\n");
-		//add a function to free everything
-        exit (1);
-    }
-    return (1);  // Valid map content
-}
-char	**duplicate_map(char **map, int rows, int cols)
+char	**allocate_map_copy(int rows, int cols)
 {
 	char	**map_copy;
 	int		row;
-	int		col;
 
 	map_copy = (char **)malloc(sizeof(char *) * rows);
 	if (!map_copy)
 		return (NULL);
-
 	row = 0;
 	while (row < rows)
 	{
 		map_copy[row] = (char *)malloc(sizeof(char) * (cols + 1));
 		if (!map_copy[row])
 		{
-			// Free previously allocated rows
 			while (--row >= 0)
 				free(map_copy[row]);
 			free(map_copy);
 			return (NULL);
 		}
+		row++;
+	}
+	return (map_copy);
+}
 
+char	**duplicate_map(char **map, int rows, int cols)
+{
+	char	**map_copy;
+	int		row;
+	int		col;
+
+	map_copy = allocate_map_copy(rows, cols);
+	if (!map_copy)
+		return (NULL);
+	row = 0;
+	while (row < rows)
+	{
 		col = 0;
 		while (col < cols)
 		{
@@ -141,87 +88,26 @@ char	**duplicate_map(char **map, int rows, int cols)
 	return (map_copy);
 }
 
-
-/*
-** Complete map validation
-*/
-
-void print_map(char **map, int rows, int cols)
+void	print_map(char **map, int rows, int cols)
 {
-    int y, x;
+	int	y;
+	int	x;
 
-    if (!map)
-    {
-        printf("Error: Null map received.\n");
-        return;
-    }
-
-    for (y = 0; y < rows; y++)
-    {
-        for (x = 0; x < cols; x++)
-        {
-            printf("%c", map[y][x]);
-        }
-        printf("\n"); // Move to next line after printing a row
-    }
-}
-
-int is_player_position_valid(char **map, int rows, int cols)
-{
-    int y, x;
-
-    // Find player position (N, S, E, W)
-    for (y = 0; y < rows; y++)
-    {
-        for (x = 0; x < cols; x++)
-        {
-            if (map[y][x] == 'N' || map[y][x] == 'S' ||
-                map[y][x] == 'E' || map[y][x] == 'W')
-            {
-                // Check if player is at map boundary
-                if (y == 0 || y == rows - 1 || x == 0 || x == cols - 1)
-                {
-                    printf("Error: Player starting position cannot be at map boundary [%d,%d]\n", y, x);
-                    return (0);
-                }
-
-                // Check if player is next to an empty space or map boundary
-                if (map[y-1][x] == ' ' || map[y+1][x] == ' ' ||
-                    map[y][x-1] == ' ' || map[y][x+1] == ' ')
-                {
-                    printf("Error: Player starting position must be properly enclosed by walls [%d,%d]\n", y, x);
-                    return (0);
-                }
-
-                // Found valid player position
-                return (1);
-            }
-        }
-    }
-
-    // No player found (though this should be caught by validate_map_content)
-    printf("Error: No player starting position found\n");
-    return (0);
-}
-
-int validate_map(char **map, int rows, int cols)
-{
-	char **map_copy;
-	int enclosed;
-
-	print_map(map, rows, cols);
-	enclosed = 0;
-	if (!validate_map_content(map, rows, cols))
-		return (0);
-    if (!is_player_position_valid(map, rows, cols))	// Check player position isn't at boundary
-		return (-3);
-	map_copy = duplicate_map(map, rows, cols);
-	if (!map_copy)
-		return (0);
-	enclosed = is_map_enclosed(map_copy, rows, cols);
-	free_map_copy(map_copy, rows);
-	if (!enclosed)
-		return (-1);
-	printf("Map validation successful!\n");
-	return (1);
+	if (!map)
+	{
+		print_error("Null map received.");
+		return ;
+	}
+	y = 0;
+	while (y < rows)
+	{
+		x = 0;
+		while (x < cols)
+		{
+			printf("%c", map[y][x]);
+			x++;
+		}
+		printf("\n");
+		y++;
+	}
 }

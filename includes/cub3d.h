@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/01 19:02:09 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:01:14 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,14 @@ typedef struct s_img
 	int			height;
 }				t_img;
 
-/* Map structure */
-/* typedef struct s_map
+typedef struct s_map_data
 {
-	char	**grid;
-	int		width;
-	int		height;
-	int		has_player;
-}	t_map; */
+	char		**map;
+	int			row;
+	int			cols;
+	int			map_started;
+}				t_map_data;
+
 /* Structure for rectangle coordinates and size */
 typedef struct s_rect
 {
@@ -173,6 +173,12 @@ typedef struct s_map
 	int			width;
 }				t_map;
 
+typedef struct s_cord
+{
+	int			x;
+	int			y;
+}				t_cord;
+
 /* Main game structure */
 typedef struct s_game
 {
@@ -195,19 +201,30 @@ typedef struct s_game
 }				t_game;
 
 // file_check.c //
-int is_cub_file(const char *filename);
-int is_xpm_file(const char *filename);
-int check_permission(const char *filename);
-int check_textures(const char *line, int i, t_textures *textures);
-t_textures  *init_textures(void);
-int textures_present(t_textures *textures);
-int	colors_present(t_textures *textures);
 int				is_cub_file(const char *filename);
 int				is_xpm_file(const char *filename);
 int				check_permission(const char *filename);
 int				check_textures(const char *line, int i, t_textures *textures);
 t_textures		*init_textures(void);
 int				textures_present(t_textures *textures);
+int				colors_present(t_textures *textures);
+int				textures_present(t_textures *textures);
+
+// texture_check.c //
+int				handle_no_texture(const char *line, int y, int j,
+					t_textures *textures);
+int				handle_so_texture(const char *line, int y, int j,
+					t_textures *textures);
+int				handle_ea_texture(const char *line, int y, int j,
+					t_textures *textures);
+int				handle_we_texture(const char *line, int y, int j,
+					t_textures *textures);
+
+// texture_check2.c //
+int				handle_f_color(const char *line, int y, int j,
+					t_textures *textures);
+int				handle_c_color(const char *line, int y, int j,
+					t_textures *textures);
 
 // main.c//
 int				key_press(int keycode, t_game *game);
@@ -241,33 +258,80 @@ int				clean_exit(t_game *game, int status);
 int				error_handle(t_game *game, char *error_message);
 void			free_split(char **split);
 
-//check_map.c//
-int is_map_line(const char *line);
-int is_texture_line(const char *line);
-char **allocate_map(int rows, int cols);
-char **extract_map(int fd, int *rows, int *cols, t_textures *textures);
-int validate_map_structure(const char *filename, t_textures *textures);
-//color_check.c//
-int is_valid_rgb_component(const char *str);
-int *rgb_split(const char *rgb_str);
+// check_map.c//
+char			**extract_map(int fd, int *rows, int *cols,
+					t_textures *textures);
+int				check_empty_line(char *line);
+int				handle_map_section(char *line, int *map_started,
+					int *map_section_ended, int *valid_map_found);
+int				validate_map_structure(const char *filename);
+
+// check_map_utils.c //
+void			free_map_1(char **map, int rows);
+int				return_char_value(int has_valid_char, int has_invalid_char);
+int				is_map_line(const char *line);
+int				is_texture_line(const char *line);
+
+// check_map_utils2.c //
+char			**allocate_map(int rows, int cols);
+char			**init_map_data(int rows, int cols);
+int				process_map_line_data(char *line, t_map_data *data);
+char			**fill_map_data(int fd, int rows, int cols);
+
+// check_map_utils3.c //
+void			process_map_line(char **map, char *line, int row, int col_len);
+int				process_map_row_data(char *line, int *cols, int *map_started);
+int				count_map_rows(int fd, int *cols);
+
+// check_map_utils4.c //
+void			init_map_status(int map_stat[3]);
+int				close_return(int fd, int ret_value);
+int				close_return_stat(int fd, int map_stat);
+
+// color_check.c//
+int				is_valid_rgb_component(const char *str);
+int				*rgb_split(const char *rgb_str);
+
+// color_check_utils1.c //
+int				is_valid_rgb_component(const char *str);
+int				check_rgb_format(const char *rgb_str);
+int				count_rgb_components(char **split);
+int				*populate_rgb_array(char **split);
+
+// error.c //
+void			print_error(char *error_message);
+int				print_return_error(char *error_message, int return_value);
+int				print_return_free(char *error_message, int return_value,
+					char *line);
 
 // color_check.c//
 int				is_valid_rgb_component(const char *str);
 int				*rgb_split(const char *rgb_str);
 
 // parse_map.c//
-int				flood_fill(char **map, int x, int y, int rows, int cols);
-int				is_map_enclosed(char **map, int rows, int cols);
-int				validate_map_content(char **map, int rows, int cols);
-int				validate_map(char **map, int rows, int cols);
+int				flood_fill(char **map, t_cord *cord, int rows, int cols);
+char			**allocate_map_copy(int rows, int cols);
 char			**duplicate_map(char **map, int rows, int cols);
+void			print_map(char **map, int rows, int cols);
+
+// parse_map_utils.c //
+int				find_start_position(char **map, int rows, int cols);
+int				is_map_enclosed(char **map, int rows, int cols);
+int				check_valid_char(char c, int *player_count);
+int	validate_map_content(char **map, int rows, int cols, t_game *game);
+
+// parse_map_utils2.c //
+int				is_player_char(char c);
+int				check_player_surroundings(char **map, int y, int x);
+int				is_player_position_valid(char **map, int rows, int cols);
+int	validate_map(char **map, int rows, int cols, t_game *game);
 
 // free.c //
 void			free_map_copy(char **map_copy, int rows);
 int				handle_exit(t_game *game);
 // free.c //
-void	free_map_copy(char **map_copy, int rows);
-int handle_exit(t_game *game);
+void			free_map_copy(char **map_copy, int rows);
+int				handle_exit(t_game *game);
 
 // raycasting.c//
 void			cast_rays(t_game *game);

@@ -50,7 +50,7 @@ FTPRINTF		=	ft_printf ft_putchar ft_putnbr_fd ft_putstr_fd \
 					ft_putunsigned ft_pointer ft_hexptr
 
 GET_NEXT_LINE_DIR	=	get_next_line/
-GET_NEXT_LINE		=	get_next_line get_next_line_utils
+GET_NEXT_LINE		=	get_next_line
 
 SRC_FILES+=$(addprefix $(FTIS_DIR),$(FTIS))
 SRC_FILES+=$(addprefix $(FTMEM_DIR),$(FTMEM))

@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color_check.c                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 11:26:56 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/03 10:47:16 by sinawara         ###   ########.fr       */
+/*   Created: 2025/04/02 11:23:10 by sinawara          #+#    #+#             */
+/*   Updated: 2025/04/02 17:36:37 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	*rgb_split(const char *rgb_str)
+void	print_error(char *error_message)
 {
-	int		*rgb;
-	char	**split;
-	int		count;
+	printf("Error\n");
+	printf("%s\n", error_message);
+}
 
-	if (!check_rgb_format(rgb_str))
-		return (NULL);
-	split = ft_split(rgb_str, ',');
-	if (!split)
-		return (NULL);
-	count = count_rgb_components(split);
-	if (count != 3)
-	{
-		free(split);
-		return (NULL);
-	}
-	rgb = populate_rgb_array(split);
-	if (!rgb)
-		print_error("Invalid RGB input!");
-	return (rgb);
+int	print_return_error(char *error_message, int return_value)
+{
+	printf("Error\n");
+	printf("%s\n", error_message);
+	return (return_value);
+}
+
+int	print_return_free(char *error_message, int return_value, char *line)
+{
+	printf("Error\n");
+	printf("%s\n", error_message);
+	free(line);
+	return (return_value);
 }

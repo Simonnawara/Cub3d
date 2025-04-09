@@ -12,10 +12,12 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen_gnl(const char *s)
+/* size_t	ft_strlen_gnl(const char *s)
 {
 	size_t	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 		i++;
@@ -27,6 +29,8 @@ size_t	ft_strlcpy_gnl(char *dst, const char *src, size_t size)
 	size_t	i;
 	size_t	x;
 
+	if (!src)
+		return (0);
 	x = ft_strlen_gnl(src);
 	i = 0;
 	if (size != 0)
@@ -45,6 +49,8 @@ char	*ft_strchr_gnl(const char *s, int c)
 {
 	int	i;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	while (s[i] != '\0')
 	{
@@ -60,6 +66,8 @@ char	*ft_strchr_gnl(const char *s, int c)
 char	*ft_strjoin_gnl(char const *s1, char const *s2)
 {
 	char	*s;
+	size_t	len1;
+	size_t	len2;
 
 	if (!s1 && !s2)
 		return (ft_strdup_gnl(""));
@@ -67,11 +75,13 @@ char	*ft_strjoin_gnl(char const *s1, char const *s2)
 		return (ft_strdup_gnl(s2));
 	if (!s2)
 		return (ft_strdup_gnl(s1));
-	s = malloc(sizeof(char) * (ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1));
+	len1 = ft_strlen_gnl(s1);
+	len2 = ft_strlen_gnl(s2);
+	s = malloc(sizeof(char) * (len1 + len2 + 1));
 	if (!s)
 		return (NULL);
-	ft_strlcpy_gnl(s, s1, ft_strlen_gnl(s1) + 1);
-	ft_strlcpy_gnl(s + ft_strlen_gnl(s1), s2, ft_strlen_gnl(s2) + 1);
+	ft_strlcpy_gnl(s, s1, len1 + 1);
+	ft_strlcpy_gnl(s + len1, s2, len2 + 1);
 	return (s);
 }
 
@@ -85,7 +95,7 @@ char	*ft_strdup_gnl(const char *src)
 	i = 0;
 	while (src[i])
 		i++;
-	res = malloc(sizeof(char) * i + 1);
+	res = malloc(sizeof(char) * (i + 1));
 	if (!res)
 		return (NULL);
 	i = 0;
@@ -96,4 +106,4 @@ char	*ft_strdup_gnl(const char *src)
 	}
 	res[i] = '\0';
 	return (res);
-}
+} */
