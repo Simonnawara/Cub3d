@@ -6,7 +6,7 @@
 /*   By: trouilla <trouilla@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:04 by trouilla          #+#    #+#             */
-/*   Updated: 2025/04/01 11:02:58 by trouilla         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:38:40 by trouilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,11 @@ int	clean_exit(t_game *game, int status)
 	if (game->map_path)
 		free(game->map_path);
 	free_images(game);
+	if (game->mlx)
+	{
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+	}
 	exit(status);
 	return (status);
 }
