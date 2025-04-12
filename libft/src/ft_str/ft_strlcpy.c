@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 15:55:46 by sinawara          #+#    #+#             */
-/*   Updated: 2024/10/07 15:55:49 by sinawara         ###   ########.fr       */
+/*   Created: 2025/04/12 14:50:38 by sinawara          #+#    #+#             */
+/*   Updated: 2025/04/12 14:50:38 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,37 +31,36 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (x);
 }
 
-char *ft_strncpy(char *dest, const char *src, size_t n)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
-    size_t i;
+	size_t	i;
 
-    i = 0;
-    while (i < n && src[i])
-    {
-        dest[i] = src[i];
-        i++;
-    }
-    while (i < n) // Fill the rest with '\0' if `src` is shorter than `n`
-    {
-        dest[i] = '\0';
-        i++;
-    }
-    return dest;
+	i = 0;
+	while (i < n && src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }
 
-char *ft_strcpy(char *dest, const char *src)
+char	*ft_strcpy(char *dest, const char *src)
 {
-    int i = 0;
+	int	i;
 
-    if (!dest || !src)
-        return (NULL);
-
-    while (src[i])
-    {
-        dest[i] = src[i];
-        i++;
-    }
-    dest[i] = '\0'; // Null-terminate the destination string
-
-    return dest;
+	i = 0;
+	if (!dest || !src)
+		return (NULL);
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

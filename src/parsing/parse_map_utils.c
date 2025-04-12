@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:09:40 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/04 15:57:51 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:41:19 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ void	*init_cord(void)
 int	find_start_position(char **map, int rows, int cols)
 {
 	t_cord	*cord;
+	int		result;
 
 	cord = init_cord();
+	if (!cord)
+		return (0);
 	cord->y = 0;
 	while (cord->y < rows)
 	{
@@ -38,12 +41,16 @@ int	find_start_position(char **map, int rows, int cols)
 			if (map[cord->y][cord->x] == '0' || map[cord->y][cord->x] == 'N'
 				|| map[cord->y][cord->x] == 'S' || map[cord->y][cord->x] == 'E'
 				|| map[cord->y][cord->x] == 'W')
-				return (flood_fill(map, cord, rows, cols));
+			{
+				result = flood_fill(map, cord, rows, cols);
+				free(cord);
+				return (result);
+			}
 			cord->x++;
 		}
 		cord->y++;
 	}
-	return (1);
+	return (free_and_return(cord, 1));
 }
 
 int	is_map_enclosed(char **map, int rows, int cols)

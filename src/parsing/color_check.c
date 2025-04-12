@@ -6,11 +6,26 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 11:26:56 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/03 10:47:16 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:35:23 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+void	free_split1(char **split)
+{
+	int	i;
+
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
 
 int	*rgb_split(const char *rgb_str)
 {
@@ -26,10 +41,11 @@ int	*rgb_split(const char *rgb_str)
 	count = count_rgb_components(split);
 	if (count != 3)
 	{
-		free(split);
+		free_split1(split);
 		return (NULL);
 	}
 	rgb = populate_rgb_array(split);
+	free_split1(split);
 	if (!rgb)
 		print_error("Invalid RGB input!");
 	return (rgb);

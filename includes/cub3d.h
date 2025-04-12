@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/04 16:01:14 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:44:04 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,20 +318,19 @@ void			print_map(char **map, int rows, int cols);
 int				find_start_position(char **map, int rows, int cols);
 int				is_map_enclosed(char **map, int rows, int cols);
 int				check_valid_char(char c, int *player_count);
-int	validate_map_content(char **map, int rows, int cols, t_game *game);
+int				validate_map_content(char **map, int rows, int cols,
+					t_game *game);
 
 // parse_map_utils2.c //
 int				is_player_char(char c);
 int				check_player_surroundings(char **map, int y, int x);
 int				is_player_position_valid(char **map, int rows, int cols);
-int	validate_map(char **map, int rows, int cols, t_game *game);
+int				validate_map(char **map, int rows, int cols, t_game *game);
 
 // free.c //
 void			free_map_copy(char **map_copy, int rows);
 int				handle_exit(t_game *game);
-// free.c //
-void			free_map_copy(char **map_copy, int rows);
-int				handle_exit(t_game *game);
+int				free_and_return(void *ptr, int ret_value);
 
 // raycasting.c//
 void			cast_rays(t_game *game);

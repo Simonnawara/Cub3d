@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 15:54:50 by sinawara          #+#    #+#             */
-/*   Updated: 2024/10/07 15:54:51 by sinawara         ###   ########.fr       */
+/*   Created: 2025/04/12 14:50:27 by sinawara          #+#    #+#             */
+/*   Updated: 2025/04/12 14:50:27 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,18 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char *ft_strrchr(const char *s, int c)
+char	*ft_strrchr(const char *s, int c)
 {
-    char *last_occurrence;
+	char	*last_occurrence;
+
 	last_occurrence = NULL;
-
-    while (*s)
-    {
-        if (*s == (char)c)
-            last_occurrence = (char *)s;
-        s++;
-    }
-    if (c == '\0')
-        return (char *)s;
-
-    return last_occurrence;
+	while (*s)
+	{
+		if (*s == (char)c)
+			last_occurrence = (char *)s;
+		s++;
+	}
+	if (c == '\0')
+		return ((char *)s);
+	return (last_occurrence);
 }

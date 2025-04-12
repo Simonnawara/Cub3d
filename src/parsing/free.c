@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:06:43 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/04 16:01:29 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:42:50 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,10 @@ int	error_handle(t_game *game, char *error_message)
 int	handle_exit(t_game *game)
 {
 	return (clean_exit(game, 0));
+}
+
+int	free_and_return(void *ptr, int ret_value)
+{
+	free(ptr);
+	return (ret_value);
 }
