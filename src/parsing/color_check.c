@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 11:26:56 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/12 14:35:23 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/14 11:08:29 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	*rgb_split(const char *rgb_str)
 		return (NULL);
 	}
 	rgb = populate_rgb_array(split);
-	free_split1(split);
 	if (!rgb)
 		print_error("Invalid RGB input!");
 	return (rgb);
