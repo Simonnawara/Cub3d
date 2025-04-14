@@ -6,7 +6,7 @@
 /*   By: sinawara <sinawara@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 10:37:51 by sinawara          #+#    #+#             */
-/*   Updated: 2025/04/12 14:44:04 by sinawara         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:13:41 by sinawara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 
 /* FPS Control */
 # define FPS 60
-# define FRAME_TIME (1000000 / FPS)
+# define FRAME_TIME 16666
 
 /* minimap constant*/
 # define MINIMAP_SIZE 200
